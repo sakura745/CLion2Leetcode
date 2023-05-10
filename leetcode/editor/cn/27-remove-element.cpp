@@ -66,13 +66,29 @@ using namespace std;
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        for (int fast = 0; fast < nums.size(); ++fast) {
-            int slow = 0;
-            if (nums[fast] != val) {
-                nums[slow] = nums[fast];
-                ++slow;
+        //暴力循环
+        int size = nums.size();
+        for (int i = 0; i < size; ++i) {
+            if (nums[i] == val) {
+                for (int j = i + 1; j < size; ++j) {
+                    //nums[i] = nums[j];逻辑上没错，但是循环需要更新，因此将i换成j - 1
+                    nums[j - 1] = nums[j];
+                }
+                --i;
+                --size;
             }
         }
+        return size;
+
+        //双指针
+/*        int slow = 0;
+        for (int fast = 0; fast < nums.size(); ++fast) {
+            if (nums[fast] != val) {
+                nums[slow++] = nums[fast];
+            }
+        }
+        return slow;*/
+
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
