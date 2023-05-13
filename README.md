@@ -21,14 +21,44 @@ ${question.content}
 \#include<bits/stdc++.h>
 
 using namespace std;
+
+/*struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};*/
+void printLinkedList(ListNode* head);
 ${question.code}
 
 int main()
 {
     Solution s;
-    vector<int> a /*initilization*/;
-    auto x = s. /*function_name*/;
-    cout << x << endl;
+//    vector<int> a /*initilization*/;
+//    auto x = s. /*function_name*/;
+//    cout << x << endl;
+    /*    ListNode* test = new ListNode(1);//自定义链表
+    test->next = new ListNode(2);
+    test->next->next = new ListNode(6);
+    test->next->next->next = new ListNode(3);
+    test->next->next->next->next = new ListNode(4);
+    test->next->next->next->next->next = new ListNode(5);
+    test->next->next->next->next->next->next = new ListNode(6);*/
+//    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
+//    auto x = s. /*function_name*/;
+    
+    
+    
     return 0;
+}
+
+void printLinkedList(ListNode* head) {//输出链表
+    if(head == nullptr) return;
+    while(head->next != nullptr){
+        cout << head->val << " -> ";
+        head = head->next;
+    }
+    cout << head->val << endl;
 }
 ```
