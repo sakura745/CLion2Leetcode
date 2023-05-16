@@ -15,3 +15,5 @@ add_executable(59-spiral-matrix-ii leetcode/editor/cn/59-spiral-matrix-ii.cpp)
 add_executable(203-remove-linked-list-elements leetcode/editor/cn/203-remove-linked-list-elements.cpp)
 add_executable(707-design-linked-list leetcode/editor/cn/707-design-linked-list.cpp)
 add_executable(206-reverse-linked-list leetcode/editor/cn/206-reverse-linked-list.cpp)
+
+add_executable(383-ransom-note leetcode/editor/cn/383-ransom-note.cpp)
