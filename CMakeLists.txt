@@ -19,3 +19,4 @@ add_executable(206-reverse-linked-list leetcode/editor/cn/206-reverse-linked-lis
 add_executable(383-ransom-note leetcode/editor/cn/383-ransom-note.cpp)
 add_executable(541-reverse-string-ii leetcode/editor/cn/541-reverse-string-ii.cpp)
 add_executable(05-ti-huan-kong-ge-lcof "leetcode/editor/cn/剑指 Offer 05-ti-huan-kong-ge-lcof.cpp")
+add_executable(28-find-the-index-of-the-first-occurrence-in-a-string leetcode/editor/cn/28-find-the-index-of-the-first-occurrence-in-a-string.cpp)
