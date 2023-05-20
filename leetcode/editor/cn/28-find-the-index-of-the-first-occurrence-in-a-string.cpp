@@ -50,6 +50,10 @@ class Solution {
 public:
     void getNext(const string &s, int* next) {
         next[0] = -1;
+
+        //由于next数组是看之前的字符。当s只有一个长度时，之前没有字符。所以只能是在此跳出。
+        if (s.size() == 1) return;
+
         next[1] = 0;
         int i = 2;
         int cn = 0;
@@ -64,7 +68,7 @@ public:
         }
     }
     int strStr(string haystack, string needle) {
-        int next[needle.size() + 1];
+        int next[needle.size()];
         getNext(needle, next);
         int i = 0;
         int j = 0;
