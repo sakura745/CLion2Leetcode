@@ -60,7 +60,18 @@ using namespace std;
 class Solution {
 public:
     bool isValid(string s) {
-
+        if (s.size() % 2 != 0) return false;//剪枝
+        stack<int> stack1;//如果是int，有个类型转换。char也可以
+        for (auto& i : s) {
+            if (i == '(') stack1.push(')');
+            else if (i == '[') stack1.push(']');
+            else if (i == '{') stack1.push('}');
+            else if (stack1.empty()/*遍历过程中，栈为空，表示有多余的右括号*/ || stack1.top() != i/*左右括号不匹配*/) return false;
+            else/*包含了i为})]的情况*/ stack1.pop();
+        }
+        //遍历结束，栈不为空，表示有多余的左括号
+        //return !stack.empty() ? false : true;
+        return /*简化成*/stack1.empty();
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

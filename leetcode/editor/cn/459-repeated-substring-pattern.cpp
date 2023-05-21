@@ -62,7 +62,7 @@ public:
         string ss = s + s;
         ss.erase(ss.begin());
         ss.erase(ss.end() - 1);
-        return ss.find(s) != string::npos ? true : false;
+        return ss.find(s) != string::npos;
     }*/
     void getNext(const string& s, int* next) {
         next[0] = -1;
@@ -88,7 +88,7 @@ public:
         getNext(s + 'A'/*只要加一个不满足s要求的字符都行*/, next);
         //比如字符串是"aba",变成"abaA"
 
-        //return (next[len] != 0/*等于0，直接跳出为false*/ && len % (len - next[len]) == 0) ? true : false;
+        //return (next[len] != 0 && len % (len - next[len]) == 0) ? true : false;
         //简化为
         return next[len] != 0/*等于0，直接跳出为false*/&& len % (len - next[len]) == 0;
     }

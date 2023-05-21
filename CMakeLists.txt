@@ -21,3 +21,5 @@ add_executable(541-reverse-string-ii leetcode/editor/cn/541-reverse-string-ii.cp
 add_executable(05-ti-huan-kong-ge-lcof "leetcode/editor/cn/剑指 Offer 05-ti-huan-kong-ge-lcof.cpp")
 add_executable(28-find-the-index-of-the-first-occurrence-in-a-string leetcode/editor/cn/28-find-the-index-of-the-first-occurrence-in-a-string.cpp)
 add_executable(459-repeated-substring-pattern leetcode/editor/cn/459-repeated-substring-pattern.cpp)
+add_executable(1047-remove-all-adjacent-duplicates-in-string leetcode/editor/cn/1047-remove-all-adjacent-duplicates-in-string.cpp)
+add_executable(150-evaluate-reverse-polish-notation leetcode/editor/cn/150-evaluate-reverse-polish-notation.cpp)
