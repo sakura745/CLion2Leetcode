@@ -23,3 +23,4 @@ add_executable(28-find-the-index-of-the-first-occurrence-in-a-string leetcode/ed
 add_executable(459-repeated-substring-pattern leetcode/editor/cn/459-repeated-substring-pattern.cpp)
 add_executable(1047-remove-all-adjacent-duplicates-in-string leetcode/editor/cn/1047-remove-all-adjacent-duplicates-in-string.cpp)
 add_executable(150-evaluate-reverse-polish-notation leetcode/editor/cn/150-evaluate-reverse-polish-notation.cpp)
+add_executable(239-sliding-window-maximum leetcode/editor/cn/239-sliding-window-maximum.cpp)
