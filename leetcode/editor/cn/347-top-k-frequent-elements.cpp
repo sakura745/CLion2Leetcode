@@ -50,8 +50,8 @@ class Solution {
 public:
     class cmp {//比较函数
     public:
-        bool operator()(const pair<int, int>& l, const pair<int, int>& r) {
-            return r.second < l.second;
+        bool operator()(const pair<int, int>& lhs, const pair<int, int>& rhs) {
+            return rhs.second < lhs.second;
         }
     };
 
