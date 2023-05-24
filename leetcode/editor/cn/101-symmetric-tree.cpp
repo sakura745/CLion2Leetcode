@@ -1,27 +1,20 @@
 /**
-给你一棵二叉树的根节点 root ，返回其节点值的 后序遍历 。 
+给你一个二叉树的根节点 root ， 检查它是否轴对称。 
 
  
 
  示例 1： 
  
  
-输入：root = [1,null,2,3]
-输出：[3,2,1]
+输入：root = [1,2,2,3,4,4,3]
+输出：true
  
 
  示例 2： 
-
  
-输入：root = []
-输出：[]
  
-
- 示例 3： 
-
- 
-输入：root = [1]
-输出：[1]
+输入：root = [1,2,2,null,3,null,3]
+输出：false
  
 
  
@@ -29,15 +22,15 @@
  提示： 
 
  
- 树中节点的数目在范围 [0, 100] 内 
+ 树中节点数目在范围 [1, 1000] 内 
  -100 <= Node.val <= 100 
  
 
  
 
- 进阶：递归算法很简单，你可以通过迭代算法完成吗？ 
+ 进阶：你可以运用递归和迭代两种方法解决这个问题吗？ 
 
- Related Topics 栈 树 深度优先搜索 二叉树 👍 1041 👎 0
+ Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 2428 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -51,14 +44,14 @@ using namespace std;
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };*/
-/*struct TreeNode {
+struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
-};*/
+};
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
@@ -75,55 +68,39 @@ using namespace std;
 class Solution {
 public:
     //递归
-/*    void traversal(TreeNode* cur, vector<int>& vec) {
-        if (cur == nullptr) return;
-        traversal(cur->left, vec);//左
-        traversal(cur->right, vec);//右
-        vec.push_back(cur->val);//中
+/*    bool recursion(TreeNode* cur1, TreeNode* cur2) {
+        //先排除空节点
+        //这两个语句不能调换
+        if (!cur1 && !cur2) return true;
+        //非空之后，再排除值。
+        if (!cur1 || !cur2 || cur1->val != cur2->val*//*值判断一定要在非空之后*//*) return false;
+
+        auto outside = recursion(cur1->left, cur2->right);
+        auto inside = recursion(cur1->right, cur2->left);
+        return outside && inside;
     }
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        traversal(root, res);
-        return res;
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
+        return recursion(root->left, root->right);
     }*/
-
-    //迭代
-/*    vector<int> postorderTraversal(TreeNode* root) {
+        //迭代
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
         stack<TreeNode*> st;
-        vector<int> res;
-        if (!root) return {};
-        st.push(root);
+        st.push(root->left);
+        st.push(root->right);
         while (!st.empty()) {
-            TreeNode* cur = st.top();
-            st.pop();
-            res.push_back(cur->val);//中
-            if (cur->left) st.push(cur->left);//左
-            if (cur->right) st.push(cur->right);//右
+            auto leftNode = st.top();st.pop();
+            auto rightNode = st.top();st.pop();
+            if (!leftNode && !rightNode) continue;
+            if (!leftNode || !rightNode || leftNode->val != rightNode->val)
+                return false;
+            st.push(leftNode->left);
+            st.push(rightNode->right);
+            st.push(leftNode->right);
+            st.push(rightNode->left);
         }
-        reverse(res.begin(), res.end());//反转数组
-        return res;
-    }*/
-    //统一迭代
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        stack<TreeNode*> st;
-        if (root) st.push(root);
-        while (!st.empty()) {
-            TreeNode* cur = st.top();
-            st.pop();
-            if (cur) {
-                //中
-                st.push(cur);
-                st.push(nullptr);
-
-                if (cur->right) st.push(cur->right);//右
-                if (cur->left) st.push(cur->left);//左
-            } else {
-                res.push_back(st.top()->val);
-                st.pop();
-            }
-        }
-        return res;
+        return true;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
@@ -144,7 +121,13 @@ int main()
     test->next->next->next->next->next->next = new ListNode(6);*/
 //    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
 //    auto x = s. /*function_name*/;
-    
+/*    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+    root->right->left = new TreeNode(6);
+    root->right->right = new TreeNode(7);*/
     
     
     return 0;

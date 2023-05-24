@@ -112,17 +112,16 @@ public:
         if (root) st.push(root);//为了统一循环，需要让stack有元素
         while (!st.empty()) {
             TreeNode* cur = st.top();
+            st.pop();//弹出，避免重复操作
             if (cur) {
-                st.pop();//弹出，避免重复操作
                 if(cur->right) st.push(cur->right);//右
 
                 //中
                 st.push(cur);
-                st.push(nullptr);//标记用的，访问为空的循环
+                st.push(nullptr);//标记用的，访问为空的分支
 
                 if(cur->left) st.push(cur->left);//左
-            } else {//只有空节点才会弹出，
-                st.pop();//弹出空指针
+            } else {//只有空节点才会弹出
                 res.push_back(st.top()->val);//获取下一个节点，并赋给res
                 st.pop();//元素用完了，记得弹出
             }

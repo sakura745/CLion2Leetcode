@@ -1,43 +1,42 @@
 /**
-给你一棵二叉树的根节点 root ，返回其节点值的 后序遍历 。 
+给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。 
 
  
 
- 示例 1： 
- 
- 
-输入：root = [1,null,2,3]
-输出：[3,2,1]
- 
-
- 示例 2： 
-
- 
-输入：root = []
-输出：[]
- 
-
- 示例 3： 
-
- 
-输入：root = [1]
-输出：[1]
- 
+ 示例 1: 
 
  
 
- 提示： 
+ 
+输入: [1,2,3,null,5,null,4]
+输出: [1,3,4]
+ 
+
+ 示例 2: 
 
  
- 树中节点的数目在范围 [0, 100] 内 
+输入: [1,null,3]
+输出: [1,3]
+ 
+
+ 示例 3: 
+
+ 
+输入: []
+输出: []
+ 
+
+ 
+
+ 提示: 
+
+ 
+ 二叉树的节点个数的范围是 [0,100] 
+ 
  -100 <= Node.val <= 100 
  
 
- 
-
- 进阶：递归算法很简单，你可以通过迭代算法完成吗？ 
-
- Related Topics 栈 树 深度优先搜索 二叉树 👍 1041 👎 0
+ Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 872 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -74,55 +73,36 @@ using namespace std;
  */
 class Solution {
 public:
-    //递归
-/*    void traversal(TreeNode* cur, vector<int>& vec) {
-        if (cur == nullptr) return;
-        traversal(cur->left, vec);//左
-        traversal(cur->right, vec);//右
-        vec.push_back(cur->val);//中
-    }
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        traversal(root, res);
-        return res;
-    }*/
-
     //迭代
-/*    vector<int> postorderTraversal(TreeNode* root) {
-        stack<TreeNode*> st;
-        vector<int> res;
-        if (!root) return {};
-        st.push(root);
-        while (!st.empty()) {
-            TreeNode* cur = st.top();
-            st.pop();
-            res.push_back(cur->val);//中
-            if (cur->left) st.push(cur->left);//左
-            if (cur->right) st.push(cur->right);//右
-        }
-        reverse(res.begin(), res.end());//反转数组
-        return res;
-    }*/
-    //统一迭代
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        stack<TreeNode*> st;
-        if (root) st.push(root);
-        while (!st.empty()) {
-            TreeNode* cur = st.top();
-            st.pop();
-            if (cur) {
-                //中
-                st.push(cur);
-                st.push(nullptr);
+//    vector<int> rightSideView(TreeNode* root) {
+//        queue<TreeNode*> que;
+//        vector<int> res;
+//        if (root) que.push(root);
+//        while (!que.empty()) {
+//            int size = que.size();
+//            while (size--) {
+//                TreeNode* cur = que.front();
+//                que.pop();
+//                if (!size)/*size = 0*/ res.push_back(cur->val);
+//                if (cur->left) que.push(cur->left);
+//                if (cur->right) que.push(cur->right);
+//            }
+//        }
+//        return res;
+//    }
+    //递归
+    void recursion(TreeNode* root, vector<int>& res, int depth) {
+        if (!root) return;
+        if (res.size() == depth) res.emplace_back(root->val);
 
-                if (cur->right) st.push(cur->right);//右
-                if (cur->left) st.push(cur->left);//左
-            } else {
-                res.push_back(st.top()->val);
-                st.pop();
-            }
-        }
+        //先加入右节点元素，因为是保存右节点
+        recursion(root->right, res, depth + 1);
+        recursion(root->left, res, depth + 1);
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        int depth = 0;
+        recursion(root, res, depth);
         return res;
     }
 };
@@ -144,7 +124,13 @@ int main()
     test->next->next->next->next->next->next = new ListNode(6);*/
 //    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
 //    auto x = s. /*function_name*/;
-    
+/*    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+    root->right->left = new TreeNode(6);
+    root->right->right = new TreeNode(7);*/
     
     
     return 0;

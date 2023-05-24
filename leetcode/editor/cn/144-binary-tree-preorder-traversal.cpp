@@ -102,7 +102,7 @@ public:
         while (!st.empty()) {
             TreeNode* cur = st.top();
             st.pop();
-            res.push_back(cur->val);//前
+            res.push_back(cur->val);//中
             if (cur->right) st.push(cur->right);//右
             if (cur->left) st.push(cur->left);//左
         }
@@ -115,9 +115,8 @@ public:
         if (root) st.push(root);
         while (!st.empty()) {
             TreeNode* cur = st.top();
+            st.pop();
             if (cur) {
-                st.pop();
-
                 if (cur->right) st.push(cur->right);//右
                 if (cur->left) st.push(cur->left);//左
 
@@ -125,7 +124,6 @@ public:
                 st.push(cur);
                 st.push(nullptr);
             } else {
-                st.pop();
                 res.push_back(st.top()->val);
                 st.pop();
             }

@@ -1,43 +1,21 @@
 /**
-给你一棵二叉树的根节点 root ，返回其节点值的 后序遍历 。 
+给定一个二叉树，找出其最大深度。 
 
- 
+ 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。 
 
- 示例 1： 
- 
- 
-输入：root = [1,null,2,3]
-输出：[3,2,1]
- 
+ 说明: 叶子节点是指没有子节点的节点。 
 
- 示例 2： 
+ 示例： 给定二叉树 [3,9,20,null,null,15,7]， 
 
- 
-输入：root = []
-输出：[]
- 
+     3
+   / \
+  9  20
+    /  \
+   15   7 
 
- 示例 3： 
+ 返回它的最大深度 3 。 
 
- 
-输入：root = [1]
-输出：[1]
- 
-
- 
-
- 提示： 
-
- 
- 树中节点的数目在范围 [0, 100] 内 
- -100 <= Node.val <= 100 
- 
-
- 
-
- 进阶：递归算法很简单，你可以通过迭代算法完成吗？ 
-
- Related Topics 栈 树 深度优先搜索 二叉树 👍 1041 👎 0
+ Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 1612 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -74,54 +52,19 @@ using namespace std;
  */
 class Solution {
 public:
-    //递归
-/*    void traversal(TreeNode* cur, vector<int>& vec) {
-        if (cur == nullptr) return;
-        traversal(cur->left, vec);//左
-        traversal(cur->right, vec);//右
-        vec.push_back(cur->val);//中
-    }
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        traversal(root, res);
-        return res;
-    }*/
-
-    //迭代
-/*    vector<int> postorderTraversal(TreeNode* root) {
-        stack<TreeNode*> st;
-        vector<int> res;
-        if (!root) return {};
-        st.push(root);
-        while (!st.empty()) {
-            TreeNode* cur = st.top();
-            st.pop();
-            res.push_back(cur->val);//中
-            if (cur->left) st.push(cur->left);//左
-            if (cur->right) st.push(cur->right);//右
-        }
-        reverse(res.begin(), res.end());//反转数组
-        return res;
-    }*/
-    //统一迭代
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        stack<TreeNode*> st;
-        if (root) st.push(root);
-        while (!st.empty()) {
-            TreeNode* cur = st.top();
-            st.pop();
-            if (cur) {
-                //中
-                st.push(cur);
-                st.push(nullptr);
-
-                if (cur->right) st.push(cur->right);//右
-                if (cur->left) st.push(cur->left);//左
-            } else {
-                res.push_back(st.top()->val);
-                st.pop();
+    int maxDepth(TreeNode* root) {
+        queue<TreeNode*> que;
+        if (root) que.push(root);
+        int res = 0;
+        while (!que.empty()) {
+            int size = que.size();
+            while (size--) {
+                TreeNode* cur = que.front();
+                que.pop();
+                if (cur->left) que.push(cur->left);
+                if (cur->right) que.push(cur->right);
             }
+            ++res;
         }
         return res;
     }
@@ -144,7 +87,13 @@ int main()
     test->next->next->next->next->next->next = new ListNode(6);*/
 //    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
 //    auto x = s. /*function_name*/;
-    
+/*    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+    root->right->left = new TreeNode(6);
+    root->right->right = new TreeNode(7);*/
     
     
     return 0;
