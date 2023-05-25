@@ -1,23 +1,28 @@
 /**
-给定一个二叉树，找出其最小深度。 
+给定一个 N 叉树，找到其最大深度。 
 
- 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。 
+ 最大深度是指从根节点到最远叶子节点的最长路径上的节点总数。 
 
- 说明：叶子节点是指没有子节点的节点。 
+ N 叉树输入按层序遍历序列化表示，每组子节点由空值分隔（请参见示例）。 
 
  
 
  示例 1： 
+
  
+
  
-输入：root = [3,9,20,null,null,15,7]
-输出：2
+输入：root = [1,null,3,2,4,null,5,6]
+输出：3
  
 
  示例 2： 
 
  
-输入：root = [2,null,3,null,4,null,5,null,6]
+
+ 
+输入：root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,
+null,13,null,null,14]
 输出：5
  
 
@@ -26,11 +31,11 @@
  提示： 
 
  
- 树中节点数的范围在 [0, 10⁵] 内 
- -1000 <= Node.val <= 1000 
+ 树的深度不会超过 1000 。 
+ 树的节点数目位于 [0, 10⁴] 之间。 
  
 
- Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 1015 👎 0
+ Related Topics 树 深度优先搜索 广度优先搜索 👍 345 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -44,76 +49,65 @@ using namespace std;
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };*/
-struct TreeNode {
+/*struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
-};
+};*/
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
 class Solution {
 public:
-    //层序迭代
-/*    int minDepth(TreeNode* root) {
-        queue<TreeNode*> que;
+    //递归后序遍历
+/*    int maxDepth(Node* root) {
         if (!root) return 0;
-        if (root) que.push(root);
-        int res = 1;//至少有一层
+        int depth = 0;
+        for (auto& i: root->children) {
+            depth = max(depth, maxDepth(i));//子节点中最高
+        }
+        return depth + 1;
+    }*/
+    //层序迭代
+    int maxDepth(Node* root) {
+        queue<Node*> que;
+        if(!root) return 0;
+        else que.push(root);
+        int depth = 0;
         while (!que.empty()) {
             int size = que.size();
             while (size--) {
-                TreeNode* cur = que.front();
+                Node* cur = que.front();
                 que.pop();
-                if (cur->left) que.push(cur->left);
-                if (cur->right) que.push(cur->right);
-                if (!cur->left && !cur->right) return res;
+                for (auto& i : cur->children) {
+                    que.push(i);
+                }
             }
-            ++res;
+            ++depth;
         }
-        return res;
-    }*/
-    //递归 后序遍历
-/*    int minDepth(TreeNode* root) {
-        if (!root) return 0;
-        int left = minDepth(root->left);//左
-        int right = minDepth(root->right);//右
-        //中
-        if (!root->left && root->right)
-            return 1 + right;
-        if (root->left && !root->right)
-            return 1 + left;
-        return 1 + min(left, right);
-    }*/
-    //递归 前序遍历
-    int res = INT_MAX;
-    void recursion(TreeNode* cur, int depth) {
-        if (!cur) return;
-        //中
-        if (!cur->left && !cur->right) {
-            res = min(res, depth);
-        }
-        if (cur->left) recursion(cur->left, depth + 1);//左
-        if (cur->right) recursion(cur->right, depth + 1);//右
-        return;
-    }
-    int minDepth(TreeNode* root) {
-        if (!root) return 0;
-        recursion(root, 1);
-        return res;
+        return depth;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

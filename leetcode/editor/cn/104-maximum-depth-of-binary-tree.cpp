@@ -52,7 +52,8 @@ using namespace std;
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
+    //迭代
+/*    int maxDepth(TreeNode* root) {
         queue<TreeNode*> que;
         if (root) que.push(root);
         int res = 0;
@@ -67,7 +68,34 @@ public:
             ++res;
         }
         return res;
+    }*/
+
+    //递归：用后序遍历求高度（高度等于深度）
+/*    int recursion(TreeNode* cur) {
+        if (!cur) return 0;
+        int left = recursion(cur->left);//左
+        int right = recursion(cur->right);//右
+        //处理成高度，子节点数值 + 1
+        return 1 + max(left, right);//中
     }
+    int maxDepth(TreeNode* root) {
+        return recursion(root);
+    }*/
+    //递归：用前序遍历求深度
+    int result = 0;//递归中用到result，也可以写到函数参数中
+    void recursion(TreeNode* cur, int depth) {
+        result = result > depth ? result : depth;//中。取最大值
+        if (!cur->left && !cur->right) return;
+        if (cur->left) recursion(cur->left, depth + 1);//左
+        if (cur->right) recursion(cur->right, depth + 1);//右
+    }
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        recursion(root, 1);
+        return result;
+    }
+
+
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
