@@ -25,3 +25,5 @@ add_executable(1047-remove-all-adjacent-duplicates-in-string leetcode/editor/cn/
 add_executable(150-evaluate-reverse-polish-notation leetcode/editor/cn/150-evaluate-reverse-polish-notation.cpp)
 add_executable(239-sliding-window-maximum leetcode/editor/cn/239-sliding-window-maximum.cpp)
 add_executable(102-binary-tree-level-order-traversal leetcode/editor/cn/102-binary-tree-level-order-traversal.cpp)
+add_executable(110-balanced-binary-tree leetcode/editor/cn/110-balanced-binary-tree.cpp)
+add_executable(257-binary-tree-paths leetcode/editor/cn/257-binary-tree-paths.cpp)

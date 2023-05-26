@@ -1,21 +1,37 @@
 /**
-给定一个二叉树，找出其最大深度。 
+给定二叉树的根节点 root ，返回所有左叶子之和。 
 
- 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。 
+ 
 
- 说明: 叶子节点是指没有子节点的节点。 
+ 示例 1： 
 
- 示例： 给定二叉树 [3,9,20,null,null,15,7]， 
+ 
 
-     3
-   / \
-  9  20
-    /  \
-   15   7 
+ 
+输入: root = [3,9,20,null,null,15,7] 
+输出: 24 
+解释: 在这个二叉树中，有两个左叶子，分别是 9 和 15，所以返回 24
+ 
 
- 返回它的最大深度 3 。 
+ 示例 2: 
 
- Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 1612 👎 0
+ 
+输入: root = [1]
+输出: 0
+ 
+
+ 
+
+ 提示: 
+
+ 
+ 节点数在 [1, 1000] 范围内 
+ -1000 <= Node.val <= 1000 
+ 
+
+ 
+
+ Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 607 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -52,52 +68,33 @@ using namespace std;
  */
 class Solution {
 public:
-    //迭代
-/*    int maxDepth(TreeNode* root) {
-        queue<TreeNode*> que;
-        if (root) que.push(root);
+    //递归 后序遍历
+//    int sumOfLeftLeaves(TreeNode* root) {
+//        if (!root) return 0;
+//        if (!root->left && !root->right) return 0;
+//
+//        int left = sumOfLeftLeaves(root->left);//左
+//        //判断左节点是否为叶子节点
+//        if (root->left/*左节点存在*/ && !root->left->left && !root->left->right/*左节点的左右节点不存在*/)
+//            left = root->left->val;
+//        int right = sumOfLeftLeaves(root->right);//右
+//
+//        return left + right;//中
+//    }
+    int sumOfLeftLeaves(TreeNode* root) {
+        stack<TreeNode*> st;
+        st.push(root);
         int res = 0;
-        while (!que.empty()) {
-            int size = que.size();
-            while (size--) {
-                TreeNode* cur = que.front();
-                que.pop();
-                if (cur->left) que.push(cur->left);
-                if (cur->right) que.push(cur->right);
-            }
-            ++res;
+        while (!st.empty()) {
+            TreeNode* cur = st.top();
+            st.pop();
+            if (cur->left && !cur->left->left && !cur->left->right)//中
+                res += cur->left->val;
+            if (cur->right) st.push(cur->right);//右
+            if (cur->left) st.push(cur->left);//左
         }
         return res;
-    }*/
-
-    //递归：用后序遍历求高度（高度等于深度）
-/*    int recursion(TreeNode* cur) {
-        if (!cur) return 0;
-        int left = recursion(cur->left);//左
-        int right = recursion(cur->right);//右
-        //处理成高度，子节点数值 + 1
-        return 1 + max(left, right);//中
     }
-    int maxDepth(TreeNode* root) {
-        return recursion(root);
-    }*/
-    //递归：用前序遍历求深度
-    //每个递归函数中，都有一个result
-    int result = 0;//递归中用到result，也可以写到函数参数中
-    void recursion(TreeNode* cur, int depth) {
-        result = result > depth ? result : depth;//中。取最大值
-        if (!cur->left && !cur->right) return;
-        if (cur->left) recursion(cur->left, depth + 1);//左
-        if (cur->right) recursion(cur->right, depth + 1);//右
-    }
-
-    int maxDepth(TreeNode* root) {
-        if (!root) return 0;
-        recursion(root, 1);
-        return result;
-    }
-
-
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
