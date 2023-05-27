@@ -97,9 +97,9 @@ public:
                 st.push(cur);
                 cur = cur->left;//左
             } else {
-                cur = st.top();//记录节点，方便查找右子节点
+                cur = st.top();//中，记录节点，方便查找右子节点
                 st.pop();
-                res.push_back(cur->val);//中
+                res.push_back(cur->val);
                 cur = cur->right;//右
             }
         }

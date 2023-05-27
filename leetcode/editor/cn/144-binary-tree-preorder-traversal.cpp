@@ -100,9 +100,9 @@ public:
         if (root == nullptr) return {};
         st.push(root);
         while (!st.empty()) {
-            TreeNode* cur = st.top();
+            TreeNode* cur = st.top();//中
             st.pop();
-            res.push_back(cur->val);//中
+            res.push_back(cur->val);
             if (cur->right) st.push(cur->right);//右
             if (cur->left) st.push(cur->left);//左
         }

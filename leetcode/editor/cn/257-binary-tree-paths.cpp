@@ -142,23 +142,19 @@ public:
     //迭代 前序遍历
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> res;
-        stack<string> stS;//保存路径的节点
-        stack<TreeNode*> stT;
-        stT.push(root);
-        stS.push(to_string(root->val));
-        while (!stT.empty()) {
-            TreeNode* cur = stT.top();stT.pop();//中
-            string path = stS.top();stS.pop();
-            if (!cur->left && !cur->right) {
-                res.push_back(path);
+        stack<pair<TreeNode*, string/*保存路径的节点*/>> st;
+        st.emplace(root, to_string(root->val));
+        while (!st.empty()) {
+            auto tmp = st.top();//中
+            st.pop();
+            if (!tmp.first->left && !tmp.first->right) {
+                res.push_back(tmp.second);
             }
-            if (cur->right) {//右
-                stT.push(cur->right);
-                stS.push(path + "->" + to_string(cur->right->val));
+            if (tmp.first->right) {//右
+                st.emplace(tmp.first->right, tmp.second + "->" + to_string(tmp.first->right->val));
             }
-            if (cur->left) {//左
-                stT.push(cur->left);
-                stS.push(path + "->" + to_string(cur->left->val));
+            if (tmp.first->left) {//左
+                st.emplace(tmp.first->left, tmp.second + "->" + to_string(tmp.first->left->val));
             }
         }
         return res;

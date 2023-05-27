@@ -27,3 +27,5 @@ add_executable(239-sliding-window-maximum leetcode/editor/cn/239-sliding-window-
 add_executable(102-binary-tree-level-order-traversal leetcode/editor/cn/102-binary-tree-level-order-traversal.cpp)
 add_executable(110-balanced-binary-tree leetcode/editor/cn/110-balanced-binary-tree.cpp)
 add_executable(257-binary-tree-paths leetcode/editor/cn/257-binary-tree-paths.cpp)
+add_executable(112-path-sum leetcode/editor/cn/112-path-sum.cpp)
+add_executable(113-path-sum-ii leetcode/editor/cn/113-path-sum-ii.cpp)

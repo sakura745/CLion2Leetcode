@@ -96,8 +96,8 @@ public:
         if (res.size() == depth) res.emplace_back(root->val);
 
         //先加入右节点元素，因为是保存右节点
-        recursion(root->right, res, depth + 1);
-        recursion(root->left, res, depth + 1);
+        recursion(root->right, res, depth + 1);//depth+1是回溯
+        recursion(root->left, res, depth + 1);//depth+1是回溯
     }
     vector<int> rightSideView(TreeNode* root) {
         vector<int> res;

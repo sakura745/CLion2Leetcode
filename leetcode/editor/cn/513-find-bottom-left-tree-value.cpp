@@ -1,45 +1,39 @@
 /**
-给定一个二叉树，判断它是否是高度平衡的二叉树。 
+给定一个二叉树的 根节点 root，请找出该二叉树的 最底层 最左边 节点的值。 
 
- 本题中，一棵高度平衡二叉树定义为： 
-
- 
- 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。 
- 
+ 假设二叉树中至少有一个节点。 
 
  
 
- 示例 1： 
- 
- 
-输入：root = [3,9,20,null,null,15,7]
-输出：true
- 
-
- 示例 2： 
- 
- 
-输入：root = [1,2,2,3,3,null,null,4,4]
-输出：false
- 
-
- 示例 3： 
+ 示例 1: 
 
  
-输入：root = []
-输出：true
+
+ 
+输入: root = [2,1,3]
+输出: 1
+ 
+
+ 示例 2: 
+
+ 
+
+ 
+输入: [1,2,3,4,null,5,6,null,null,7]
+输出: 7
  
 
  
 
- 提示： 
+ 提示: 
 
  
- 树中的节点数在范围 [0, 5000] 内 
- -10⁴ <= Node.val <= 10⁴ 
+ 二叉树的节点个数的范围是 [1,10⁴] 
+ 
+ -2³¹ <= Node.val <= 2³¹ - 1 
  
 
- Related Topics 树 深度优先搜索 二叉树 👍 1331 👎 0
+ Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 484 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -76,58 +70,43 @@ struct TreeNode {
  */
 class Solution {
 public:
-    //递归，后序遍历
-/*    int recursion(TreeNode* cur) {
-        if (!cur) return 0;//终止条件
-        //左
-        int left = recursion(cur->left);
-        if (left == -1) return -1;//剪枝
-        //右
-        int right = recursion(cur->right);
-        if (right == -1) return -1;//剪枝
-        //中
-        return (abs(left - right) > 1) ?  -1 : 1 + max(left, right);
-    }
-    bool isBalanced(TreeNode* root) {
-        return recursion(root) != -1;
-    }*/
-    //迭代
-    //后序遍历求深度
-    int getHeight(TreeNode* cur) {
-        stack<TreeNode*> st;
-        if (cur) st.push(cur);
-        int res = 0, height = 0;
-        while (!st.empty()) {
-            TreeNode* tmp = st.top();
-            st.pop();
-            if (tmp) {
-                st.push(tmp); st.push(nullptr);//中
-                ++height;
-                if(tmp->right) st.push(tmp->right);//右
-                if(tmp->left) st.push(tmp->left);//左
-            } else {
-                st.pop();//出栈
-                --height;//回溯
-            }
-            res = res > height ? res : height;
+    //递归
+    int res = 0;
+    int maxDepth = -1;
+    void recursion(TreeNode* cur, int depth) {
+        //当节点为叶子节点时，记录深度最深的节点
+        if (!cur->left && !cur->right && maxDepth < depth) {
+                maxDepth = depth;
+                res = cur->val;
         }
+        if (cur->left) {
+            ++depth;
+            recursion(cur->left, depth);
+            --depth;//回溯
+        }
+        if (cur->right) {
+            recursion(cur->right, depth + 1);//也相当于回溯
+        }
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        recursion(root, 0);
         return res;
     }
-    //层序遍历每个节点
-    bool isBalanced(TreeNode* root) {
+
+    //迭代 层序遍历
+/*    int findBottomLeftValue(TreeNode* root) {
         queue<TreeNode*> que;
-        if (!root) return true;
-        else que.push(root);
+        que.push(root);
+        int res = 0;
         while (!que.empty()) {
             TreeNode* cur = que.front();
             que.pop();
-            if (abs(getHeight(cur->left) - getHeight(cur->right)) > 1)
-                return false;
-            if (cur->left) que.push(cur->left);
-            if (cur->right) que.push(cur->right);
+            if (cur->right) que.push(cur->right);//右
+            if (cur->left) que.push(cur->left);//左
+            res = cur->val;
         }
-        return true;
-    }
+        return res;
+    }*/
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
@@ -147,14 +126,14 @@ int main()
     test->next->next->next->next->next->next = new ListNode(6);*/
 //    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
 //    auto x = s. /*function_name*/;
-    TreeNode* root = new TreeNode(1);
+/*    TreeNode* root = new TreeNode(1);
     root->left = new TreeNode(2);
     root->right = new TreeNode(3);
     root->left->left = new TreeNode(4);
     root->left->right = new TreeNode(5);
     root->right->left = new TreeNode(6);
-    root->right->right = new TreeNode(7);
-    s.getHeight(root);
+    root->right->right = new TreeNode(7);*/
+    
     
     return 0;
 }

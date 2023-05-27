@@ -97,8 +97,8 @@ public:
 //        if (res.size() == depth) res.emplace_back();等价于上一行
 
         res[depth].emplace_back(cur->val);//
-        recursive(cur->left, res, depth + 1);
-        recursive(cur->right, res, depth + 1);
+        recursive(cur->left, res, depth + 1);//depth+1是回溯
+        recursive(cur->right, res, depth + 1);//depth+1是回溯
     }
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> res;
