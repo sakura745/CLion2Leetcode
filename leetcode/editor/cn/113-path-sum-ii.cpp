@@ -82,7 +82,7 @@ public:
     vector<int> res1;
     void recursion(TreeNode* cur, int sum) {
         if (!cur->left && !cur->right) {
-            //?的左右操作符返回类型要相同。void()是无操作的意思，为了满足条件操作符
+            //?的左右操作符返回类型要相同。void() no-op
             (sum == 0) ? res.push_back(res1) : void();
             return;
         }

@@ -41,16 +41,23 @@ using namespace std;
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };*/
-void printLinkedList(ListNode* head);
+/*void printLinkedList(ListNode* head);*/
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    void reverseString(vector<char>& s) {
+/*    void reverseString(vector<char>& s) {
         int left = 0, right = s.size() - 1;
         while (left < right) {//当s为奇数时，直接跳过。当s为偶数时，交换后自动满足
             s[left] ^= s[right] ^= s[left] ^= s[right];//交换
             left++;
             right--;
+        }
+    }*/
+    //仿照算法reverse函数写的
+    void reverseString(vector<char>& s) {
+        int fisrt = 0, last = s.size();
+        while ((fisrt != last) && (fisrt != --last)) {
+            swap(s[fisrt++], s[last]);
         }
     }
 };
@@ -78,6 +85,7 @@ int main()
     return 0;
 }
 
+/*
 void printLinkedList(ListNode* head) {
     if(head == nullptr) return;
     while(head->next != nullptr){//为了调整输出中 "->" 的位置
@@ -85,4 +93,4 @@ void printLinkedList(ListNode* head) {
         head = head->next;
     }
     cout << head->val << endl;//同上
-}
+}*/
