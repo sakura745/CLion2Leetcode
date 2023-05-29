@@ -29,3 +29,5 @@ add_executable(110-balanced-binary-tree leetcode/editor/cn/110-balanced-binary-t
 add_executable(257-binary-tree-paths leetcode/editor/cn/257-binary-tree-paths.cpp)
 add_executable(112-path-sum leetcode/editor/cn/112-path-sum.cpp)
 add_executable(113-path-sum-ii leetcode/editor/cn/113-path-sum-ii.cpp)
+add_executable(654-maximum-binary-tree leetcode/editor/cn/654-maximum-binary-tree.cpp)
+add_executable(98-validate-binary-search-tree leetcode/editor/cn/98-validate-binary-search-tree.cpp)
