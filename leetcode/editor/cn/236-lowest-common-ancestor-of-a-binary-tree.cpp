@@ -1,29 +1,32 @@
 /**
-给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。 
+给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。 
 
- 有效 二叉搜索树定义如下： 
-
- 
- 节点的左子树只包含 小于 当前节点的数。 
- 节点的右子树只包含 大于 当前节点的数。 
- 所有左子树和右子树自身必须也是二叉搜索树。 
- 
+ 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个
+节点也可以是它自己的祖先）。” 
 
  
 
  示例 1： 
  
  
-输入：root = [2,1,3]
-输出：true
+输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+输出：3
+解释：节点 5 和节点 1 的最近公共祖先是节点 3 。
  
 
  示例 2： 
  
  
-输入：root = [5,1,4,null,null,3,6]
-输出：false
-解释：根节点的值是 5 ，但是右子节点的值是 4 。
+输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+输出：5
+解释：节点 5 和节点 4 的最近公共祖先是节点 5 。因为根据定义最近公共祖先节点可以为节点本身。
+ 
+
+ 示例 3： 
+
+ 
+输入：root = [1,2], p = 1, q = 2
+输出：1
  
 
  
@@ -31,11 +34,14 @@
  提示： 
 
  
- 树中节点数目范围在[1, 10⁴] 内 
- -2³¹ <= Node.val <= 2³¹ - 1 
+ 树中节点数目在范围 [2, 10⁵] 内。 
+ -10⁹ <= Node.val <= 10⁹ 
+ 所有 Node.val 互不相同 。 
+ p != q 
+ p 和 q 均存在于给定的二叉树中。 
  
 
- Related Topics 树 深度优先搜索 二叉搜索树 二叉树 👍 2034 👎 0
+ Related Topics 树 深度优先搜索 二叉树 👍 2293 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -65,31 +71,19 @@ struct TreeNode {
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
 class Solution {
 public:
-/*    long maxValue = LONG_MIN;//按题目要求可得
-    bool isValidBST(TreeNode* root) {
-        if (!root) return true;
-        bool left = isValidBST(root->left);
-        if (root->val > maxValue) {
-            maxValue = root->val;
-        } else return false;
-        bool right = isValidBST(root->right);
-        return left && right;
-    }*/
-    TreeNode* pre = nullptr;//root的前一个指针
-    bool isValidBST(TreeNode* root) {
-        if (!root) return true;
-        bool left = isValidBST(root->left);
-        if (pre && pre->val >= root->val) return false;
-        pre = root; //pre指针移动
-        bool right = isValidBST(root->right);
-        return left && right;
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root || root == q || root == p) return root;
+        auto left = lowestCommonAncestor(root->left, p, q);
+        auto right = lowestCommonAncestor(root->right, p, q);
+        if (left && right) return root;
+        if (left) return left;
+        if (right) return right;
+        return nullptr;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
@@ -110,9 +104,9 @@ int main()
     test->next->next->next->next->next->next = new ListNode(6);*/
 //    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
 //    auto x = s. /*function_name*/;
-     TreeNode* root = new TreeNode(1);
-    root->left = new TreeNode(1);
-/*    root->right = new TreeNode(8);
+/*     TreeNode* root = new TreeNode(5);
+    root->left = new TreeNode(4);
+    root->right = new TreeNode(8);
     root->left->left = new TreeNode(11);
     root->left->right = new TreeNode();
     root->right->left = new TreeNode(13);
@@ -125,7 +119,7 @@ int main()
     root->right->left->right  = new TreeNode();
     root->right->right->left  = new TreeNode();
     root->right->right->right  = new TreeNode(1);*/
-    s.isValidBST(root);
+    
     
     return 0;
 }

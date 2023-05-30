@@ -1,12 +1,14 @@
 /**
-给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。 
+给你一个含重复值的二叉搜索树（BST）的根节点 root ，找出并返回 BST 中的所有 众数（即，出现频率最高的元素）。 
 
- 有效 二叉搜索树定义如下： 
+ 如果树中有不止一个众数，可以按 任意顺序 返回。 
+
+ 假定 BST 满足如下定义： 
 
  
- 节点的左子树只包含 小于 当前节点的数。 
- 节点的右子树只包含 大于 当前节点的数。 
- 所有左子树和右子树自身必须也是二叉搜索树。 
+ 结点左子树中所含节点的值 小于等于 当前节点的值 
+ 结点右子树中所含节点的值 大于等于 当前节点的值 
+ 左子树和右子树都是二叉搜索树 
  
 
  
@@ -14,16 +16,15 @@
  示例 1： 
  
  
-输入：root = [2,1,3]
-输出：true
+输入：root = [1,null,2,2]
+输出：[2]
  
 
  示例 2： 
+
  
- 
-输入：root = [5,1,4,null,null,3,6]
-输出：false
-解释：根节点的值是 5 ，但是右子节点的值是 4 。
+输入：root = [0]
+输出：[0]
  
 
  
@@ -31,11 +32,15 @@
  提示： 
 
  
- 树中节点数目范围在[1, 10⁴] 内 
- -2³¹ <= Node.val <= 2³¹ - 1 
+ 树中节点的数目在范围 [1, 10⁴] 内 
+ -10⁵ <= Node.val <= 10⁵ 
  
 
- Related Topics 树 深度优先搜索 二叉搜索树 二叉树 👍 2034 👎 0
+ 
+
+ 进阶：你可以不使用额外的空间吗？（假设由递归产生的隐式调用栈的开销不被计算在内） 
+
+ Related Topics 树 深度优先搜索 二叉搜索树 二叉树 👍 644 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -49,14 +54,14 @@ using namespace std;
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };*/
-struct TreeNode {
+/*struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
-};
+};*/
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
@@ -72,24 +77,36 @@ struct TreeNode {
  */
 class Solution {
 public:
-/*    long maxValue = LONG_MIN;//按题目要求可得
-    bool isValidBST(TreeNode* root) {
-        if (!root) return true;
-        bool left = isValidBST(root->left);
-        if (root->val > maxValue) {
-            maxValue = root->val;
-        } else return false;
-        bool right = isValidBST(root->right);
-        return left && right;
-    }*/
-    TreeNode* pre = nullptr;//root的前一个指针
-    bool isValidBST(TreeNode* root) {
-        if (!root) return true;
-        bool left = isValidBST(root->left);
-        if (pre && pre->val >= root->val) return false;
-        pre = root; //pre指针移动
-        bool right = isValidBST(root->right);
-        return left && right;
+    int maxCnt = 0/*记录最大出现频率*/, cnt = 0/*记录出现频率*/;
+    vector<int> res;
+    TreeNode* pre = nullptr;//为cur的前一个指针
+    void traversal(TreeNode* cur) {
+        if (!cur) return;
+        traversal(cur->left);//左
+
+        //中
+        //更新cnt
+        if (!pre) {//pre指向空节点，cur为遍历的第一个节点
+            cnt = 1;//cur指向的数出现的频率为1
+        } else if (pre->val == cur->val) {//双指针指向的值相等
+            ++cnt;
+        } else {//双指针指向的不相等，则重置cnt值。（cur一定大于pre的值，因为是BST）
+            cnt = 1;
+        }
+        if (maxCnt < cnt) {
+            maxCnt = cnt;//更新maxCnt
+            res.clear();//更新res，清空之前的
+            res.push_back(cur->val);
+        } else if (maxCnt == cnt){
+            res.push_back(cur->val);
+        }
+        pre = cur;//移动指针
+
+        traversal(cur->right);//右
+    }
+    vector<int> findMode(TreeNode* root) {
+        traversal(root);
+        return res;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
@@ -110,9 +127,9 @@ int main()
     test->next->next->next->next->next->next = new ListNode(6);*/
 //    ListNode* head = generateRandomLinkedList(MaxSize, MaxValue);
 //    auto x = s. /*function_name*/;
-     TreeNode* root = new TreeNode(1);
-    root->left = new TreeNode(1);
-/*    root->right = new TreeNode(8);
+/*     TreeNode* root = new TreeNode(5);
+    root->left = new TreeNode(4);
+    root->right = new TreeNode(8);
     root->left->left = new TreeNode(11);
     root->left->right = new TreeNode();
     root->right->left = new TreeNode(13);
@@ -125,7 +142,7 @@ int main()
     root->right->left->right  = new TreeNode();
     root->right->right->left  = new TreeNode();
     root->right->right->right  = new TreeNode(1);*/
-    s.isValidBST(root);
+    
     
     return 0;
 }
