@@ -33,3 +33,5 @@ add_executable(654-maximum-binary-tree leetcode/editor/cn/654-maximum-binary-tre
 add_executable(98-validate-binary-search-tree leetcode/editor/cn/98-validate-binary-search-tree.cpp)
 add_executable(530-minimum-absolute-difference-in-bst leetcode/editor/cn/530-minimum-absolute-difference-in-bst.cpp)
 add_executable(701-insert-into-a-binary-search-tree leetcode/editor/cn/701-insert-into-a-binary-search-tree.cpp)
+add_executable(216-combination-sum-iii leetcode/editor/cn/216-combination-sum-iii.cpp)
+add_executable(17-letter-combinations-of-a-phone-number leetcode/editor/cn/17-letter-combinations-of-a-phone-number.cpp)
