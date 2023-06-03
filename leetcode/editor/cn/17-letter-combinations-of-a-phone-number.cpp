@@ -76,7 +76,7 @@ public:
         }
     }
     vector<string> letterCombinations(string digits) {
-        if (digits.size() == 0) return res;
+        if (digits.empty()) return res;
         backtracking(digits, 0, "");
         return res;
     }

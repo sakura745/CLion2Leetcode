@@ -101,7 +101,7 @@ public:
     }
     
     int peek() {
-        int result = this->pop();//函数的复用
+        int result = pop();//函数的复用
         stackOut.push(result);
         return result;
     }
