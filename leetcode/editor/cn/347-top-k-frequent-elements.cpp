@@ -48,21 +48,16 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    class cmp {//比较函数
-    public:
-        bool operator()(const pair<int, int>& lhs, const pair<int, int>& rhs) {
-            return rhs.second < lhs.second;
-        }
-    };
-
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int, int> map;
         vector<int> res;
         for (int i = 0; i < nums.size(); ++i) {
             map[nums[i]]++;//key 数字，value出现的次数
         }
-
-        priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> que;//小根堆
+        auto cmp = [](const auto& lhs, const auto& rhs) {
+            return lhs.second > rhs.second;
+        };//比较函数
+        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> que(cmp);//小根堆
 
         for (auto it = map.begin(); it != map.end(); ++it) {//遍历map
             que.push(*it);//加入小根堆
