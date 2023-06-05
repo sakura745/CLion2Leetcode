@@ -1,31 +1,22 @@
 /**
-给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。 
+给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。 
 
- 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。 
-
- 
+ 回文串 是正着读和反着读都一样的字符串。 
 
  
 
  示例 1： 
 
  
-输入：digits = "23"
-输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
+输入：s = "aab"
+输出：[["a","a","b"],["aa","b"]]
  
 
  示例 2： 
 
  
-输入：digits = ""
-输出：[]
- 
-
- 示例 3： 
-
- 
-输入：digits = "2"
-输出：["a","b","c"]
+输入：s = "a"
+输出：[["a"]]
  
 
  
@@ -33,11 +24,11 @@
  提示： 
 
  
- 0 <= digits.length <= 4 
- digits[i] 是范围 ['2', '9'] 的一个数字。 
+ 1 <= s.length <= 16 
+ s 仅由小写英文字母组成 
  
 
- Related Topics 哈希表 字符串 回溯 👍 2484 👎 0
+ Related Topics 字符串 动态规划 回溯 👍 1523 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -62,22 +53,35 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
-    vector<string> telephoto{"", "", "abc" ,"def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    vector<string> res;
-    void backtracking(const string& digits, int index, const string& path) {
-        if (path.size()/*index，也可以*/ == digits.size()/*深度*/) {
+    vector<string> path;
+    vector<vector<string>> res;
+    void backtracking(const string& s, int startIndex) {
+        if (startIndex == s.size()) {
             res.push_back(path);
             return;
         }
-        int tmp = digits[index] - '0';//取出digits中对应的数字
-        for (auto& i : telephoto[tmp]/*宽度*/) {
-            backtracking(digits, index + 1/*终止条件和去重*/, path + i/*回溯*/);
+        for (int i = startIndex; i < s.size(); ++i) {
+            if (isPalindrome(s, startIndex, i)/*[startIndex, i]是分割区间*/)
+                path.push_back(s.substr(startIndex, i - startIndex + 1/*substr第二个参数是子串的长度，长度至少为1*/));
+            else
+                continue;
+            backtracking(s, i + 1);
+            path.pop_back();
         }
     }
-    vector<string> letterCombinations(string digits) {
-        if (digits.empty()) return res;
-        backtracking(digits, 0, "");
+    bool isPalindrome(const std::string& s, int l, int r) {//回文子串
+        while (l < r) {
+            if (s[l] == s[r]) {
+                l++;
+                r--;
+            } else
+                return false;
+        }
+        return true;
+    }
+public:
+    vector<vector<string>> partition(string s) {
+        backtracking(s, 0);
         return res;
     }
 };
@@ -87,7 +91,6 @@ public:
 int main()
 {
     Solution s;
-    s.letterCombinations("23");
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;

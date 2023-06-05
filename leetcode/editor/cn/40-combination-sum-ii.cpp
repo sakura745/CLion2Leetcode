@@ -1,43 +1,45 @@
 /**
-给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。 
+给定一个候选人编号的集合 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 
 
- 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。 
+ candidates 中的每个数字在每个组合中只能使用 一次 。 
 
- 
-
- 
-
- 示例 1： 
-
- 
-输入：digits = "23"
-输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
- 
-
- 示例 2： 
-
- 
-输入：digits = ""
-输出：[]
- 
-
- 示例 3： 
-
- 
-输入：digits = "2"
-输出：["a","b","c"]
- 
+ 注意：解集不能包含重复的组合。 
 
  
 
- 提示： 
+ 示例 1: 
 
  
- 0 <= digits.length <= 4 
- digits[i] 是范围 ['2', '9'] 的一个数字。 
+输入: candidates = [10,1,2,7,6,1,5], target = 8,
+输出:
+[
+[1,1,6],
+[1,2,5],
+[1,7],
+[2,6]
+] 
+
+ 示例 2: 
+
+ 
+输入: candidates = [2,5,2,1,2], target = 5,
+输出:
+[
+[1,2,2],
+[5]
+] 
+
  
 
- Related Topics 哈希表 字符串 回溯 👍 2484 👎 0
+ 提示: 
+
+ 
+ 1 <= candidates.length <= 100 
+ 1 <= candidates[i] <= 50 
+ 1 <= target <= 30 
+ 
+
+ Related Topics 数组 回溯 👍 1353 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -62,22 +64,25 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
-    vector<string> telephoto{"", "", "abc" ,"def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    vector<string> res;
-    void backtracking(const string& digits, int index, const string& path) {
-        if (path.size()/*index，也可以*/ == digits.size()/*深度*/) {
+    vector<int> path;
+    vector<vector<int>> res;
+    void backtracking(vector<int>& candidates, int target, int startIndex) {
+        if (target == 0) {
             res.push_back(path);
             return;
         }
-        int tmp = digits[index] - '0';//取出digits中对应的数字
-        for (auto& i : telephoto[tmp]/*宽度*/) {
-            backtracking(digits, index + 1/*终止条件和去重*/, path + i/*回溯*/);
+        for (int i = startIndex; i < candidates.size() && target >= 0; ++i) {
+            if (i > startIndex && candidates[i- 1] == candidates[i])
+                continue;//跳过当前起点，到下一个起点
+            path.push_back(candidates[i]);
+            backtracking(candidates, target - candidates[i], i + 1);
+            path.pop_back();
         }
     }
-    vector<string> letterCombinations(string digits) {
-        if (digits.empty()) return res;
-        backtracking(digits, 0, "");
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        backtracking(candidates, target, 0);
         return res;
     }
 };
@@ -87,7 +92,6 @@ public:
 int main()
 {
     Solution s;
-    s.letterCombinations("23");
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;

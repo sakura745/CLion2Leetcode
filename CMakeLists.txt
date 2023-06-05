@@ -35,3 +35,4 @@ add_executable(530-minimum-absolute-difference-in-bst leetcode/editor/cn/530-min
 add_executable(701-insert-into-a-binary-search-tree leetcode/editor/cn/701-insert-into-a-binary-search-tree.cpp)
 add_executable(216-combination-sum-iii leetcode/editor/cn/216-combination-sum-iii.cpp)
 add_executable(17-letter-combinations-of-a-phone-number leetcode/editor/cn/17-letter-combinations-of-a-phone-number.cpp)
+add_executable(39-combination-sum leetcode/editor/cn/39-combination-sum.cpp)
