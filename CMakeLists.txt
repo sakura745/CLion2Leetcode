@@ -36,3 +36,5 @@ add_executable(701-insert-into-a-binary-search-tree leetcode/editor/cn/701-inser
 add_executable(216-combination-sum-iii leetcode/editor/cn/216-combination-sum-iii.cpp)
 add_executable(17-letter-combinations-of-a-phone-number leetcode/editor/cn/17-letter-combinations-of-a-phone-number.cpp)
 add_executable(39-combination-sum leetcode/editor/cn/39-combination-sum.cpp)
+add_executable(93-restore-ip-addresses leetcode/editor/cn/93-restore-ip-addresses.cpp)
+add_executable(78-subsets leetcode/editor/cn/78-subsets.cpp)
