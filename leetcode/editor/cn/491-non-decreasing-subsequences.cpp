@@ -1,40 +1,34 @@
 /**
-给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。 
+给你一个整数数组 nums ，找出并返回所有该数组中不同的递增子序列，递增子序列中 至少有两个元素 。你可以按 任意顺序 返回答案。 
 
- 你可以按 任何顺序 返回答案。 
+ 数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。 
 
  
 
  示例 1： 
 
  
-输入：n = 4, k = 2
-输出：
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-] 
+输入：nums = [4,6,7,7]
+输出：[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
+ 
 
  示例 2： 
 
  
-输入：n = 1, k = 1
-输出：[[1]] 
+输入：nums = [4,4,3,2,1]
+输出：[[4,4]]
+ 
 
  
 
  提示： 
 
  
- 1 <= n <= 20 
- 1 <= k <= n 
+ 1 <= nums.length <= 15 
+ -100 <= nums[i] <= 100 
  
 
- Related Topics 回溯 👍 1392 👎 0
+ Related Topics 位运算 数组 哈希表 回溯 👍 665 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,22 +53,51 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
+    //unordered_set
+//    vector<int> path;
+//    vector<vector<int>> res;
+//    void backtracking(vector<int>& nums, int startIndex) {
+//        if (path.size() > 1)
+//            res.push_back(path);
+//        unordered_set<int> used;
+//        for (int i = startIndex; i < nums.size(); ++i) {
+//            if ((!path.empty()/*防止path为空造成的异常*/ && path.back() > nums[i]) ||
+//                used.find(nums[i]) != used.end()/*去重*/)
+//                continue;
+//            path.push_back(nums[i]);
+//            used.insert(nums[i]);
+//            backtracking(nums, i + 1);
+//            path.pop_back();
+//        }
+//    }
+//public:
+//    vector<vector<int>> findSubsequences(vector<int>& nums) {
+//        if (nums.size() == 1) return {};
+//        backtracking(nums, 0);
+//        return res;
+//    }
+
+    //数组
     vector<int> path;
     vector<vector<int>> res;
-    void backtracking(int n, int k, int startIndex) {
-        if (path.size() == k) {
+    void backtracking(vector<int>& nums, int startIndex) {
+        if (path.size() > 1)
             res.push_back(path);
-            return;
-        }
-        for (int i = startIndex; i <= n - (k - path.size()) + 1/*剪枝*/; ++i) {
-            path.push_back(i);
-            backtracking(n, k, i + 1);
-            path.pop_back();//回溯
+        int used[201] = {};
+        for (int i = startIndex; i < nums.size(); ++i) {
+            if ((!path.empty()/*防止path为空造成的异常*/ && path.back() > nums[i]) ||
+                used[nums[i] + 100] != 0/*去重*/)
+                continue;
+            path.push_back(nums[i]);
+            used[nums[i] + 100]++;
+            backtracking(nums, i + 1);
+            path.pop_back();
         }
     }
-    vector<vector<int>> combine(int n, int k) {
-        backtracking(n, k, 1);
+public:
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        if (nums.size() == 1) return {};
+        backtracking(nums, 0);
         return res;
     }
 };
@@ -84,6 +107,9 @@ public:
 int main()
 {
     Solution s;
+    vector<int> a = {4,4,4,4,3,2,1};
+    s.findSubsequences(a);
+    cout << 1;
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;

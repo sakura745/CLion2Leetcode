@@ -66,25 +66,50 @@ using namespace std;
 class Solution {
     vector<int> path;
     vector<vector<int>> res;
-    void backtracking(vector<int>& candidates, int target, int startIndex) {
+    void backtracking(vector<int>& candidates, int target, int startIndex, vector<bool>& used) {
         if (target == 0) {
             res.push_back(path);
             return;
         }
         for (int i = startIndex; i < candidates.size() && target >= 0; ++i) {
-            if (i > startIndex && candidates[i- 1] == candidates[i])
-                continue;//跳过当前起点，到下一个起点
+            if (i > 0 && candidates[i] == candidates[i - 1] && !used[i - 1])
+                continue;
             path.push_back(candidates[i]);
-            backtracking(candidates, target - candidates[i], i + 1);
+            used[i] = true;
+            backtracking(candidates, target - candidates[i], i + 1, used);
+            used[i] = false;
             path.pop_back();
         }
     }
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<bool> used(candidates.size(), false);
         sort(candidates.begin(), candidates.end());
-        backtracking(candidates, target, 0);
+        backtracking(candidates, target, 0, used);
         return res;
     }
+    //不用辅助used
+//    vector<int> path;
+//    vector<vector<int>> res;
+//    void backtracking(vector<int>& candidates, int target, int startIndex) {
+//        if (target == 0) {
+//            res.push_back(path);
+//            return;
+//        }
+//        for (int i = startIndex; i < candidates.size() && target >= 0; ++i) {
+//            if (i > startIndex && candidates[i - 1] == candidates[i])
+//                continue;//跳过当前起点，到下一个起点
+//            path.push_back(candidates[i]);
+//            backtracking(candidates, target - candidates[i], i + 1);
+//            path.pop_back();
+//        }
+//    }
+//public:
+//    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+//        sort(candidates.begin(), candidates.end());
+//        backtracking(candidates, target, 0);
+//        return res;
+//    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

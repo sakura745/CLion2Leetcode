@@ -1,40 +1,40 @@
 /**
-给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。 
-
- 你可以按 任何顺序 返回答案。 
+给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。 
 
  
 
  示例 1： 
 
  
-输入：n = 4, k = 2
-输出：
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-] 
+输入：nums = [1,2,3]
+输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ 
 
  示例 2： 
 
  
-输入：n = 1, k = 1
-输出：[[1]] 
+输入：nums = [0,1]
+输出：[[0,1],[1,0]]
+ 
+
+ 示例 3： 
+
+ 
+输入：nums = [1]
+输出：[[1]]
+ 
 
  
 
  提示： 
 
  
- 1 <= n <= 20 
- 1 <= k <= n 
+ 1 <= nums.length <= 6 
+ -10 <= nums[i] <= 10 
+ nums 中的所有整数 互不相同 
  
 
- Related Topics 回溯 👍 1392 👎 0
+ Related Topics 数组 回溯 👍 2570 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,22 +59,52 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
+    //数组
+/*    vector<vector<int>> res;
     vector<int> path;
-    vector<vector<int>> res;
-    void backtracking(int n, int k, int startIndex) {
-        if (path.size() == k) {
+    int depthUsed[21] = {};
+    void backtracking(vector<int>& nums) {
+        if (path.size() == nums.size()) {
             res.push_back(path);
             return;
         }
-        for (int i = startIndex; i <= n - (k - path.size()) + 1/*剪枝*/; ++i) {
-            path.push_back(i);
-            backtracking(n, k, i + 1);
-            path.pop_back();//回溯
+        for(auto& i :nums) {
+            if (depthUsed[i + 10] == 0) {
+                path.push_back(i);
+                depthUsed[i + 10] = 1;
+                backtracking(nums);
+                depthUsed[i + 10] = 0;
+                path.pop_back();
+            }
         }
     }
-    vector<vector<int>> combine(int n, int k) {
-        backtracking(n, k, 1);
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        backtracking(nums);
+        return res;
+    }*/
+    //vector
+    vector<vector<int>> res;
+    vector<int> path;
+    void backtracking(vector<int>& nums, vector<bool>& used) {
+        if (path.size() == nums.size()) {
+            res.push_back(path);
+            return;
+        }
+        for(int i = 0; i < nums.size(); ++i) {
+            if (!used[i]) {
+                path.push_back(nums[i]);
+                used[i] = true;
+                backtracking(nums, used);
+                used[i] = false;
+                path.pop_back();
+            }
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<bool> used(nums.size(), false);
+        backtracking(nums, used);
         return res;
     }
 };
@@ -84,6 +114,8 @@ public:
 int main()
 {
     Solution s;
+    vector<int> a = {1,2,3};
+    s.permute(a);
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;

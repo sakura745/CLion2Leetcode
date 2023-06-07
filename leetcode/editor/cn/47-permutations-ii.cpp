@@ -1,40 +1,35 @@
 /**
-给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。 
-
- 你可以按 任何顺序 返回答案。 
+给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。 
 
  
 
  示例 1： 
 
  
-输入：n = 4, k = 2
+输入：nums = [1,1,2]
 输出：
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-] 
+[[1,1,2],
+ [1,2,1],
+ [2,1,1]]
+ 
 
  示例 2： 
 
  
-输入：n = 1, k = 1
-输出：[[1]] 
+输入：nums = [1,2,3]
+输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ 
 
  
 
  提示： 
 
  
- 1 <= n <= 20 
- 1 <= k <= n 
+ 1 <= nums.length <= 8 
+ -10 <= nums[i] <= 10 
  
 
- Related Topics 回溯 👍 1392 👎 0
+ Related Topics 数组 回溯 👍 1374 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,22 +54,30 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
     vector<int> path;
     vector<vector<int>> res;
-    void backtracking(int n, int k, int startIndex) {
-        if (path.size() == k) {
+    void backtracking(vector<int>& nums, vector<bool>& used) {
+        if (path.size() == nums.size()) {
             res.push_back(path);
             return;
         }
-        for (int i = startIndex; i <= n - (k - path.size()) + 1/*剪枝*/; ++i) {
-            path.push_back(i);
-            backtracking(n, k, i + 1);
-            path.pop_back();//回溯
+        for (int i = 0; i < nums.size(); ++i) {
+            if (i > 0 && nums[i] == nums[i - 1]/*横向去重*/ && !used[i - 1]/*确保是横向去重*/)
+                continue;
+            if (!used[i]) {
+                path.push_back(nums[i]);
+                used[i] = true;
+                backtracking(nums, used);
+                path.pop_back();
+                used[i] = false;
+            }
         }
     }
-    vector<vector<int>> combine(int n, int k) {
-        backtracking(n, k, 1);
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<bool> used(nums.size(), false);
+        sort(nums.begin(), nums.end());
+        backtracking(nums, used);
         return res;
     }
 };

@@ -3,6 +3,7 @@ project(LeetCode2CLion)
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 
 add_executable(704-binary-search leetcode/editor/cn/704-binary-search.cpp)
@@ -38,3 +39,5 @@ add_executable(17-letter-combinations-of-a-phone-number leetcode/editor/cn/17-le
 add_executable(39-combination-sum leetcode/editor/cn/39-combination-sum.cpp)
 add_executable(93-restore-ip-addresses leetcode/editor/cn/93-restore-ip-addresses.cpp)
 add_executable(78-subsets leetcode/editor/cn/78-subsets.cpp)
+add_executable(46-permutations leetcode/editor/cn/46-permutations.cpp)
+add_executable(491-non-decreasing-subsequences leetcode/editor/cn/491-non-decreasing-subsequences.cpp)
