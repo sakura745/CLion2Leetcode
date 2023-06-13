@@ -1,38 +1,36 @@
 /**
-给你一个整数数组 nums 和一个整数 k ，按以下方法修改该数组： 
+在柠檬水摊上，每一杯柠檬水的售价为 5 美元。顾客排队购买你的产品，（按账单 bills 支付的顺序）一次购买一杯。 
 
- 
- 选择某个下标 i 并将 nums[i] 替换为 -nums[i] 。 
- 
+ 每位顾客只买一杯柠檬水，然后向你付 5 美元、10 美元或 20 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 5 美元。 
 
- 重复这个过程恰好 k 次。可以多次选择同一个下标 i 。 
+ 注意，一开始你手头没有任何零钱。 
 
- 以这种方式修改数组后，返回数组 可能的最大和 。 
+ 给你一个整数数组 bills ，其中 bills[i] 是第 i 位顾客付的账。如果你能给每位顾客正确找零，返回 true ，否则返回 false 。 
 
  
 
  示例 1： 
 
  
-输入：nums = [4,2,3], k = 1
-输出：5
-解释：选择下标 1 ，nums 变为 [4,-2,3] 。
+输入：bills = [5,5,5,10,20]
+输出：true
+解释：
+前 3 位顾客那里，我们按顺序收取 3 张 5 美元的钞票。
+第 4 位顾客那里，我们收取一张 10 美元的钞票，并返还 5 美元。
+第 5 位顾客那里，我们找还一张 10 美元的钞票和一张 5 美元的钞票。
+由于所有客户都得到了正确的找零，所以我们输出 true。
  
 
  示例 2： 
 
  
-输入：nums = [3,-1,0,2], k = 3
-输出：6
-解释：选择下标 (1, 2, 2) ，nums 变为 [3,1,0,2] 。
- 
-
- 示例 3： 
-
- 
-输入：nums = [2,-3,-1,5,-4], k = 2
-输出：13
-解释：选择下标 (1, 4) ，nums 变为 [2,3,-1,5,4] 。
+输入：bills = [5,5,10,10,20]
+输出：false
+解释：
+前 2 位顾客那里，我们按顺序收取 2 张 5 美元的钞票。
+对于接下来的 2 位顾客，我们收取一张 10 美元的钞票，然后返还 5 美元。
+对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。
+由于不是每位顾客都得到了正确的找零，所以答案是 false。
  
 
  
@@ -40,12 +38,11 @@
  提示： 
 
  
- 1 <= nums.length <= 10⁴ 
- -100 <= nums[i] <= 100 
- 1 <= k <= 10⁴ 
+ 1 <= bills.length <= 10⁵ 
+ bills[i] 不是 5 就是 10 或是 20 
  
 
- Related Topics 贪心 数组 排序 👍 362 👎 0
+ Related Topics 贪心 数组 👍 457 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -71,21 +68,28 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    int largestSumAfterKNegations(vector<int>& nums, int k) {
-        sort(nums.begin(), nums.end(),
-             [](const auto& lhs, const auto& rhs) {
-                 return abs(lhs) > abs(rhs);
-             });//按照绝对值从大到小排序
-        for (auto& num : nums) {
-            if (num < 0 && k > 0) {
-                num *= -1;
-                --k;
+    bool lemonadeChange(vector<int>& bills) {
+        int wallet[2] = {};
+        for (auto& bill : bills) {
+            if (bill == 5) ++wallet[0];
+            if (bill == 10) {
+                if (wallet[0] == 0) {
+                    return false;
+                }
+                ++wallet[1];
+                --wallet[0];
+            }
+            if (bill == 20) {
+                if (wallet[0] > 0 && wallet[1] > 0) {//先花10
+                    --wallet[0];
+                    --wallet[1];
+                } else if (wallet[0] >= 3) {//10不够再花5
+                    wallet[0] -= 3;
+                } else
+                    return false;
             }
         }
-        if (k % 2 == 1) nums.back() *= -1;//当经过上一步遍历如果k还有剩下，则运行这一步代码
-        int res = 0;
-        for (auto& num : nums) res += num;
-        return res;
+        return true;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
@@ -94,8 +98,8 @@ public:
 int main()
 {
     Solution s;
-    vector<int> a{-2, 4, 4, 4, 6, 3};
-    s.largestSumAfterKNegations(a, 1);
+    vector<int> a{5,5,5,10,5,5,10,20,20,20};
+    s.lemonadeChange(a);
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;

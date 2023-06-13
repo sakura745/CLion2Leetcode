@@ -74,7 +74,7 @@ class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         int curSum = 0, totalSum = 0;
-        int res = 0;//初始化为零，并不是常规初始化。这个零还有一层作用，如果curSum始终大于零，则该函数输入res = 0的0
+        int res = 0;//初始化为零，并不只是常规初始化。这个零还有一层作用，如果curSum始终大于零，则该函数输入res = 0的0
         for (int i = 0; i < gas.size(); ++i) {
             curSum += (gas[i] - cost[i]);
             totalSum += (gas[i] - cost[i]);

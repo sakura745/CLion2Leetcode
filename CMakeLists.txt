@@ -44,3 +44,4 @@ add_executable(491-non-decreasing-subsequences leetcode/editor/cn/491-non-decrea
 add_executable(455-assign-cookies leetcode/editor/cn/455-assign-cookies.cpp)
 add_executable(1005-maximize-sum-of-array-after-k-negations leetcode/editor/cn/1005-maximize-sum-of-array-after-k-negations.cpp)
 add_executable(134-gas-station leetcode/editor/cn/134-gas-station.cpp)
+add_executable(860-lemonade-change leetcode/editor/cn/860-lemonade-change.cpp)
