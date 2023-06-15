@@ -46,3 +46,4 @@ add_executable(1005-maximize-sum-of-array-after-k-negations leetcode/editor/cn/1
 add_executable(134-gas-station leetcode/editor/cn/134-gas-station.cpp)
 add_executable(860-lemonade-change leetcode/editor/cn/860-lemonade-change.cpp)
 add_executable(763-partition-labels leetcode/editor/cn/763-partition-labels.cpp)
+add_executable(738-monotone-increasing-digits leetcode/editor/cn/738-monotone-increasing-digits.cpp)
