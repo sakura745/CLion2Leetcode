@@ -1,33 +1,31 @@
 /**
-给定一个正整数 n ，将其拆分为 k 个 正整数 的和（ k >= 2 ），并使这些整数的乘积最大化。 
-
- 返回 你可以获得的最大乘积 。 
+给你一个整数 n ，求恰由 n 个节点组成且节点值从 1 到 n 互不相同的 二叉搜索树 有多少种？返回满足题意的二叉搜索树的种数。 
 
  
 
- 示例 1: 
-
+ 示例 1： 
  
-输入: n = 2
-输出: 1
-解释: 2 = 1 + 1, 1 × 1 = 1。 
-
- 示例 2: 
-
  
-输入: n = 10
-输出: 36
-解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。 
-
+输入：n = 3
+输出：5
  
 
- 提示: 
+ 示例 2： 
 
  
- 2 <= n <= 58 
+输入：n = 1
+输出：1
  
 
- Related Topics 数学 动态规划 👍 1214 👎 0
+ 
+
+ 提示： 
+
+ 
+ 1 <= n <= 19 
+ 
+
+ Related Topics 树 二叉搜索树 数学 动态规划 二叉树 👍 2276 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -53,12 +51,13 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    int integerBreak(int n) {
-        vector<int> dp{0, 1, 1};
+    int numTrees(int n) {
+        vector<int> dp{1};
         dp.resize(n + 1);
-        for (int i = 3; i < n + 1; ++i) {
-            for (int j = 1; j <= i / 2 /*剪枝*/; ++j) {
-                dp[i] = max(dp[i], max(j * (i - j), j * dp[i - j]));
+        for (int i = 1; i < n + 1; ++i) {
+            //求和的递推公式
+            for (int j = 1; j < i + 1; ++j) {
+                dp[i] += dp[j - 1] * dp[i - j];
             }
         }
         return dp.back();
@@ -70,7 +69,6 @@ public:
 int main()
 {
     Solution s;
-    s.integerBreak(10);
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;
