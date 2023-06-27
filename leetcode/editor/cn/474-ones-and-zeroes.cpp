@@ -1,28 +1,30 @@
 /**
-假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 
+给你一个二进制字符串数组 strs 和两个整数 m 和 n 。 
 
- 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 
+ 
+ 请你找出并返回 strs 的最大子集的长度，该子集中 最多 有 m 个 0 和 n 个 1 。 
+ 
+
+ 如果 x 的所有元素也是 y 的元素，集合 x 是集合 y 的 子集 。 
 
  
 
  示例 1： 
 
  
-输入：n = 2
-输出：2
-解释：有两种方法可以爬到楼顶。
-1. 1 阶 + 1 阶
-2. 2 阶 
+输入：strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3
+输出：4
+解释：最多有 5 个 0 和 3 个 1 的最大子集是 {"10","0001","1","0"} ，因此答案是 4 。
+其他满足题意但较小的子集包括 {"0001","1"} 和 {"10","1","0"} 。{"111001"} 不满足题意，因为它含 4 个 1 ，大于 n 
+的值 3 。
+ 
 
  示例 2： 
 
  
-输入：n = 3
-输出：3
-解释：有三种方法可以爬到楼顶。
-1. 1 阶 + 1 阶 + 1 阶
-2. 1 阶 + 2 阶
-3. 2 阶 + 1 阶
+输入：strs = ["10", "0", "1"], m = 1, n = 1
+输出：2
+解释：最大的子集是 {"0", "1"} ，所以答案是 2 。
  
 
  
@@ -30,10 +32,13 @@
  提示： 
 
  
- 1 <= n <= 45 
+ 1 <= strs.length <= 600 
+ 1 <= strs[i].length <= 100 
+ strs[i] 仅由 '0' 和 '1' 组成 
+ 1 <= m, n <= 100 
  
 
- Related Topics 记忆化搜索 数学 动态规划 👍 3072 👎 0
+ Related Topics 数组 字符串 动态规划 👍 983 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,26 +64,20 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    //动态规划
-/*    int climbStairs(int n) {
-        vector<int> dp{1, 1, 2};
-        dp.resize(n + 1);
-        for (int i = 3; i < n + 1; ++i) {
-            dp[i] = dp[i - 2] + dp[i - 1];
-        }
-        return dp[n];
-    }*/
-    //完全背包
-    int climbStairs(int n) {
-        vector<int> dp{1};
-        dp.resize(n + 1);
-        for (int j = 0; j <= n; ++j) {//因为dp[0]可以通过递推公式得到，因此j可以从0开始
-            for (int i = 1; i <= 2; ++i) {//只能迈i个台阶，i = 1，2
-                if (j - i >= 0)
-                    dp[j] += dp[j - i];
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        for (auto& str: strs) {
+            //计算每个物品的属性
+            int x = count(str.begin(), str.end(), '0');
+            int y = str.size() - x;
+
+            for (int i = m; i >= x; --i) {//0
+                for (int j = n; j >= y; --j) {//1
+                    dp[i][j] = max(dp[i][j], dp[i - x][j - y] + 1);
+                }
             }
         }
-        return dp.back();
+        return dp.back().back();
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

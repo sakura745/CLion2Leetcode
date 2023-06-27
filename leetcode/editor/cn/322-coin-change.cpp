@@ -1,28 +1,30 @@
 /**
-假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 
+给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。 
 
- 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 
+ 计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。 
+
+ 你可以认为每种硬币的数量是无限的。 
 
  
 
  示例 1： 
 
  
-输入：n = 2
-输出：2
-解释：有两种方法可以爬到楼顶。
-1. 1 阶 + 1 阶
-2. 2 阶 
+输入：coins = [1, 2, 5], amount = 11
+输出：3 
+解释：11 = 5 + 5 + 1 
 
  示例 2： 
 
  
-输入：n = 3
-输出：3
-解释：有三种方法可以爬到楼顶。
-1. 1 阶 + 1 阶 + 1 阶
-2. 1 阶 + 2 阶
-3. 2 阶 + 1 阶
+输入：coins = [2], amount = 3
+输出：-1 
+
+ 示例 3： 
+
+ 
+输入：coins = [1], amount = 0
+输出：0
  
 
  
@@ -30,10 +32,12 @@
  提示： 
 
  
- 1 <= n <= 45 
+ 1 <= coins.length <= 12 
+ 1 <= coins[i] <= 2³¹ - 1 
+ 0 <= amount <= 10⁴ 
  
 
- Related Topics 记忆化搜索 数学 动态规划 👍 3072 👎 0
+ Related Topics 广度优先搜索 数组 动态规划 👍 2462 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,26 +63,16 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    //动态规划
-/*    int climbStairs(int n) {
-        vector<int> dp{1, 1, 2};
-        dp.resize(n + 1);
-        for (int i = 3; i < n + 1; ++i) {
-            dp[i] = dp[i - 2] + dp[i - 1];
-        }
-        return dp[n];
-    }*/
-    //完全背包
-    int climbStairs(int n) {
-        vector<int> dp{1};
-        dp.resize(n + 1);
-        for (int j = 0; j <= n; ++j) {//因为dp[0]可以通过递推公式得到，因此j可以从0开始
-            for (int i = 1; i <= 2; ++i) {//只能迈i个台阶，i = 1，2
-                if (j - i >= 0)
-                    dp[j] += dp[j - i];
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> dp(amount + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 0; i < coins.size(); ++i) {
+            for (int j = coins[i]; j <= amount; ++j) {
+                if (dp[j - coins[i]] != INT_MAX)//因为使用了INT_MAX + 1，剔除溢出int的部分
+                    dp[j] = min(dp[j], dp[j - coins[i]] + 1);
             }
         }
-        return dp.back();
+        return dp.back() == INT_MAX ? -1 : dp.back();
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

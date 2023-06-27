@@ -1,39 +1,33 @@
 /**
-假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 
+给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。 
 
- 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 
+ 完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。 
 
  
 
  示例 1： 
 
  
-输入：n = 2
-输出：2
-解释：有两种方法可以爬到楼顶。
-1. 1 阶 + 1 阶
-2. 2 阶 
+输入：n = 12
+输出：3 
+解释：12 = 4 + 4 + 4 
 
  示例 2： 
 
  
-输入：n = 3
-输出：3
-解释：有三种方法可以爬到楼顶。
-1. 1 阶 + 1 阶 + 1 阶
-2. 1 阶 + 2 阶
-3. 2 阶 + 1 阶
- 
+输入：n = 13
+输出：2
+解释：13 = 4 + 9 
 
  
 
  提示： 
 
  
- 1 <= n <= 45 
+ 1 <= n <= 10⁴ 
  
 
- Related Topics 记忆化搜索 数学 动态规划 👍 3072 👎 0
+ Related Topics 广度优先搜索 数学 动态规划 👍 1729 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,23 +53,12 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    //动态规划
-/*    int climbStairs(int n) {
-        vector<int> dp{1, 1, 2};
-        dp.resize(n + 1);
-        for (int i = 3; i < n + 1; ++i) {
-            dp[i] = dp[i - 2] + dp[i - 1];
-        }
-        return dp[n];
-    }*/
-    //完全背包
-    int climbStairs(int n) {
-        vector<int> dp{1};
-        dp.resize(n + 1);
-        for (int j = 0; j <= n; ++j) {//因为dp[0]可以通过递推公式得到，因此j可以从0开始
-            for (int i = 1; i <= 2; ++i) {//只能迈i个台阶，i = 1，2
-                if (j - i >= 0)
-                    dp[j] += dp[j - i];
+    int numSquares(int n) {
+        vector<int> dp(n + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 1; i * i <= n; ++i) {
+            for (int j = i * i/*为了避免dp[j - i * i]非法*/; j <= n; ++j) {
+                dp[j] = min(dp[j], dp[j - i * i] + 1);
             }
         }
         return dp.back();

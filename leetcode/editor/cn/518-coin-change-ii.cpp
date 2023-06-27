@@ -1,28 +1,42 @@
 /**
-假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 
+给你一个整数数组 coins 表示不同面额的硬币，另给一个整数 amount 表示总金额。 
 
- 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 
+ 请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 0 。 
 
+ 假设每一种面额的硬币有无限个。 
+
+ 题目数据保证结果符合 32 位带符号整数。 
+
+ 
+
+ 
  
 
  示例 1： 
 
  
-输入：n = 2
-输出：2
-解释：有两种方法可以爬到楼顶。
-1. 1 阶 + 1 阶
-2. 2 阶 
+输入：amount = 5, coins = [1, 2, 5]
+输出：4
+解释：有四种方式可以凑成总金额：
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+ 
 
  示例 2： 
 
  
-输入：n = 3
-输出：3
-解释：有三种方法可以爬到楼顶。
-1. 1 阶 + 1 阶 + 1 阶
-2. 1 阶 + 2 阶
-3. 2 阶 + 1 阶
+输入：amount = 3, coins = [2]
+输出：0
+解释：只用面额 2 的硬币不能凑成总金额 3 。
+ 
+
+ 示例 3： 
+
+ 
+输入：amount = 10, coins = [10] 
+输出：1
  
 
  
@@ -30,10 +44,13 @@
  提示： 
 
  
- 1 <= n <= 45 
+ 1 <= coins.length <= 300 
+ 1 <= coins[i] <= 5000 
+ coins 中的所有值 互不相同 
+ 0 <= amount <= 5000 
  
 
- Related Topics 记忆化搜索 数学 动态规划 👍 3072 👎 0
+ Related Topics 数组 动态规划 👍 1101 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -59,23 +76,12 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    //动态规划
-/*    int climbStairs(int n) {
-        vector<int> dp{1, 1, 2};
-        dp.resize(n + 1);
-        for (int i = 3; i < n + 1; ++i) {
-            dp[i] = dp[i - 2] + dp[i - 1];
-        }
-        return dp[n];
-    }*/
-    //完全背包
-    int climbStairs(int n) {
+    int change(int amount, vector<int>& coins) {
         vector<int> dp{1};
-        dp.resize(n + 1);
-        for (int j = 0; j <= n; ++j) {//因为dp[0]可以通过递推公式得到，因此j可以从0开始
-            for (int i = 1; i <= 2; ++i) {//只能迈i个台阶，i = 1，2
-                if (j - i >= 0)
-                    dp[j] += dp[j - i];
+        dp.resize(amount + 1);
+        for (int i = 0; i < coins.size(); ++i) {
+            for (int j = coins[i]; j <= amount; ++j) {
+                dp[j] += dp[j - coins[i]];
             }
         }
         return dp.back();
