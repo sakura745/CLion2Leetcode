@@ -56,3 +56,4 @@ add_executable(416-partition-equal-subset-sum leetcode/editor/cn/416-partition-e
 add_executable(139-word-break leetcode/editor/cn/139-word-break.cpp)
 add_executable(198-house-robber leetcode/editor/cn/198-house-robber.cpp)
 add_executable(213-house-robber-ii leetcode/editor/cn/213-house-robber-ii.cpp)
+add_executable(188-best-time-to-buy-and-sell-stock-iv leetcode/editor/cn/188-best-time-to-buy-and-sell-stock-iv.cpp)
