@@ -88,10 +88,7 @@ public:
             int l = 0, r = res;//双指针
             while (l < r) {//通过二分法找出第一个大于等于num的位置l
                 int m = (l + r) / 2;
-                if (tails[m] < num)
-                    l = m + 1;
-                else
-                    r = m;
+                tails[m] < num ? l = m + 1 : r = m;
             }
             tails[l] = num;
             if (res == r)
