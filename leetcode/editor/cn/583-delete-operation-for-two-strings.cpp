@@ -1,33 +1,39 @@
 /**
-给定一个正整数 n ，将其拆分为 k 个 正整数 的和（ k >= 2 ），并使这些整数的乘积最大化。 
+给定两个单词 word1 和
+ word2 ，返回使得
+ word1 和 
+ word2 相同所需的最小步数。 
 
- 返回 你可以获得的最大乘积 。 
+ 每步 可以删除任意一个字符串中的一个字符。 
 
  
 
- 示例 1: 
+ 示例 1： 
 
  
-输入: n = 2
-输出: 1
-解释: 2 = 1 + 1, 1 × 1 = 1。 
+输入: word1 = "sea", word2 = "eat"
+输出: 2
+解释: 第一步将 "sea" 变为 "ea" ，第二步将 "eat "变为 "ea"
+ 
 
  示例 2: 
 
  
-输入: n = 10
-输出: 36
-解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。 
+输入：word1 = "leetcode", word2 = "etco"
+输出：4
+ 
 
  
 
- 提示: 
-
- 
- 2 <= n <= 58 
+ 提示： 
  
 
- Related Topics 数学 动态规划 👍 1214 👎 0
+ 
+ 1 <= word1.length, word2.length <= 500 
+ word1 和 word2 只包含小写英文字母 
+ 
+
+ Related Topics 字符串 动态规划 👍 594 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -53,15 +59,30 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    int integerBreak(int n) {
-        vector<int> dp{0, 1, 1};
-        dp.resize(n + 1);
-        for (int i = 3; i < n + 1; ++i) {
-            for (int j = 1; j <= i / 2 /*剪枝*/; ++j) {
-                dp[i] = max({dp[i], j * (i - j), j * dp[i - j]});
+/*    int minDistance(string word1, string word2) {
+        vector<vector<int>> dp(word1.size() + 1, vector<int>(word2.size() + 1, 0));
+        for (int i = 0; i < word1.size() + 1; ++i) dp[i][0] = i;
+        for (int j = 0; j < word2.size() + 1; ++j) dp[0][j] = j;
+        for (int i = 1; i < word1.size() + 1; ++i) {
+            for (int j = 1; j < word2.size() + 1; ++j) {
+                dp[i][j] = (word1[i - 1] == word2[j - 1])
+                                ? dp[i - 1][j - 1]
+                                : min(dp[i - 1][j] + 1, dp[i][j - 1] + 1);
             }
         }
-        return dp.back();
+        return dp.back().back();
+    }*/
+    //整体 - 2 * 最长公共子序列
+    int minDistance(string word1, string word2) {
+        vector<vector<int>> dp(word1.size() + 1, vector<int>(word2.size() + 1, 0));
+        for (int i = 1; i < word1.size() + 1; ++i) {
+            for (int j = 1; j < word2.size() + 1; ++j) {
+                dp[i][j] = (word1[i - 1] == word2[j - 1])
+                           ? dp[i - 1][j - 1] + 1
+                           : max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return word1.size() + word2.size() - 2 * dp.back().back();
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
@@ -70,7 +91,7 @@ public:
 int main()
 {
     Solution s;
-    s.integerBreak(10);
+    s.minDistance("sea","eat");
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;
