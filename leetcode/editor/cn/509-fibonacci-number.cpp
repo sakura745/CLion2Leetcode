@@ -68,15 +68,17 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-/*    int fib(int n) {
+    //动态规划 一维数组
+    int fib(int n) {
         vector<int> dp{0, 1};
         dp.resize(n + 1);
         for (int i = 2; i < n + 1; ++i) {
             dp[i] = dp[i - 2] + dp[i - 1];
         }
-        return dp[n];
-    }*/
-    int fib(int n) {
+        return dp.back();
+    }
+    //动态规划 滚动数组
+/*    int fib(int n) {
         if (n <= 1) return n;
         int val1 = 0, val2 = 1;
         while(n-- >= 2) {
@@ -85,7 +87,7 @@ public:
             val2 = sum;
         }
         return val2;
-    }
+    }*/
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

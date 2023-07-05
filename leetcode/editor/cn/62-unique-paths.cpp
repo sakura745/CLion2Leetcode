@@ -73,7 +73,8 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-/*    int uniquePaths(int m, int n) {
+    //动态规划 二维数组
+    int uniquePaths(int m, int n) {
         vector<vector<int>> dp(m, vector<int>(n));
         for (int i = 0; i < m; ++i) dp[i][0] = 1;//竖向初始化
         for (int j = 0; j < n; ++j) dp[0][j] = 1;//横向初始化
@@ -82,18 +83,19 @@ public:
                 dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
             }
         }
-        return dp[m - 1][n - 1];
-    }*/
-    int uniquePaths(int m, int n) {
-        vector<int> dp(n);
-        for (int i = 0; i < n; i++) dp[i] = 1;
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
-                dp[j] += dp[j - 1];
-            }
-        }
-        return dp.back();
+        return dp.back().back();
     }
+    //动态规划 一维数组
+//    int uniquePaths(int m, int n) {
+//        vector<int> dp(n);
+//        for (int i = 0; i < n; i++) dp[i] = 1;
+//        for (int i = 1; i < m; i++) {
+//            for (int j = 1; j < n; j++) {
+//                dp[j] += dp[j - 1];
+//            }
+//        }
+//        return dp.back();
+//    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

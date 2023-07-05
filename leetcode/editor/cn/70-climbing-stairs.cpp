@@ -60,26 +60,26 @@ using namespace std;
 class Solution {
 public:
     //动态规划
-/*    int climbStairs(int n) {
+    int climbStairs(int n) {
         vector<int> dp{1, 1, 2};
         dp.resize(n + 1);
         for (int i = 3; i < n + 1; ++i) {
             dp[i] = dp[i - 2] + dp[i - 1];
         }
-        return dp[n];
-    }*/
-    //完全背包
-    int climbStairs(int n) {
-        vector<int> dp{1};
-        dp.resize(n + 1);
-        for (int j = 0; j <= n; ++j) {//因为dp[0]可以通过递推公式得到，因此j可以从0开始
-            for (int i = 1; i <= 2; ++i) {//只能迈i个台阶，i = 1，2
-                if (j - i >= 0)
-                    dp[j] += dp[j - i];
-            }
-        }
         return dp.back();
     }
+    //完全背包
+//    int climbStairs(int n) {
+//        vector<int> dp{1};
+//        dp.resize(n + 1);
+//        for (int j = 0; j <= n; ++j) {//因为dp[0]可以通过递推公式得到，因此j可以从0开始
+//            for (int i = 1; i <= 2; ++i) {//只能迈i个台阶，i = 1，2
+//                if (j - i >= 0)
+//                    dp[j] += dp[j - i];
+//            }
+//        }
+//        return dp.back();
+//    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

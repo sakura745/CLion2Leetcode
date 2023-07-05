@@ -1,45 +1,39 @@
 /**
-一个机器人位于一个
- m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。 
+给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。 
 
- 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish”）。 
+ 回文字符串 是正着读和倒过来读一样的字符串。 
 
- 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？ 
+ 子字符串 是字符串中的由连续字符组成的一个序列。 
 
- 网格中的障碍物和空位置分别用 1 和 0 来表示。 
+ 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。 
 
  
 
  示例 1： 
+
  
- 
-输入：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
-输出：2
-解释：3x3 网格的正中间有一个障碍物。
-从左上角到右下角一共有 2 条不同的路径：
-1. 向右 -> 向右 -> 向下 -> 向下
-2. 向下 -> 向下 -> 向右 -> 向右
+输入：s = "abc"
+输出：3
+解释：三个回文子串: "a", "b", "c"
  
 
  示例 2： 
+
  
- 
-输入：obstacleGrid = [[0,1],[0,0]]
-输出：1
- 
+输入：s = "aaa"
+输出：6
+解释：6个回文子串: "a", "a", "a", "aa", "aa", "aaa" 
 
  
 
  提示： 
 
  
- m == obstacleGrid.length 
- n == obstacleGrid[i].length 
- 1 <= m, n <= 100 
- obstacleGrid[i][j] 为 0 或 1 
+ 1 <= s.length <= 1000 
+ s 由小写英文字母组成 
  
 
- Related Topics 数组 动态规划 矩阵 👍 1069 👎 0
+ Related Topics 字符串 动态规划 👍 1183 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -65,43 +59,36 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    //二维数组
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int m = obstacleGrid.size();
-        int n = obstacleGrid[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, 0));
-        //初始化
-        for (int i = 0; i < m && obstacleGrid[i][0] == 0; ++i) dp[i][0] = 1;
-        for (int j = 0; j < n && obstacleGrid[0][j] == 0; ++j) dp[0][j] = 1;
-
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                if (obstacleGrid[i][j] == 0) {
-                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-                }
-            }
-        }
-        return dp.back().back();
-    }
-    //滚动数组
-//    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-//        vector<int> dp(obstacleGrid[0].size());
-//        for (int j = 0; j < dp.size(); ++j)
-//            if (obstacleGrid[0][j] == 1)
-//                dp[j] = 0;//
-//            else if (j == 0)
-//                dp[j] = 1;
-//            else
-//                dp[j] = dp[j-1];
-//        for (int i = 1; i < obstacleGrid.size(); ++i)
-//            for (int j = 0; j < dp.size(); ++j){
-//                if (obstacleGrid[i][j] == 1)
-//                    dp[j] = 0;
-//                else if (j != 0)
-//                    dp[j] = dp[j] + dp[j-1];
+    //动态规划
+//    int countSubstrings(string s) {
+//        vector<vector<bool>> dp(s.size(), vector<bool>(s.size(), false));
+//        int res = 0;
+//        for (int i = s.size() - 1; i >= 0; --i) {
+//            for (int j = i/*保证j >= i*/; j < s.size(); ++j) {
+//                if (s[i] == s[j] && (j - i <= 1 || dp[i + 1][j - 1])) {
+//                    ++res;
+//                    dp[i][j] = true;//用来推断dp[i - 1][j + 1]是否为回文的
+//                }
 //            }
-//        return dp.back();
+//        }
+//        return res;
 //    }
+    //双指针
+    int countSubstrings(string s) {
+        int res = 0;
+        for (int i = 0; i < s.size(); i++) {
+            res += extend(s, i, i, s.size()); // 以i为中心
+            res += extend(s, i, i + 1, s.size()); // 以i和i+1为中心
+        }
+        return res;
+    }
+    int extend(const string& s, int l, int r, int n) {
+        int res = 0;
+        while (l >= 0 && r < n && s[l--] == s[r++]) {
+            ++res;
+        }
+        return res;
+    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
@@ -109,8 +96,6 @@ public:
 int main()
 {
     Solution s;
-    vector<vector<int>> a {{0,0,0},{0,1,0},{0,0,0}};
-    s.uniquePathsWithObstacles(a);
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;

@@ -1,31 +1,24 @@
 /**
-一个机器人位于一个
- m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。 
+给你一个字符串 s ，找出其中最长的回文子序列，并返回该序列的长度。 
 
- 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish”）。 
-
- 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？ 
-
- 网格中的障碍物和空位置分别用 1 和 0 来表示。 
+ 子序列定义为：不改变剩余字符顺序的情况下，删除某些字符或者不删除任何字符形成的一个序列。 
 
  
 
  示例 1： 
+
  
- 
-输入：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
-输出：2
-解释：3x3 网格的正中间有一个障碍物。
-从左上角到右下角一共有 2 条不同的路径：
-1. 向右 -> 向右 -> 向下 -> 向下
-2. 向下 -> 向下 -> 向右 -> 向右
+输入：s = "bbbab"
+输出：4
+解释：一个可能的最长回文子序列为 "bbbb" 。
  
 
  示例 2： 
+
  
- 
-输入：obstacleGrid = [[0,1],[0,0]]
-输出：1
+输入：s = "cbbd"
+输出：2
+解释：一个可能的最长回文子序列为 "bb" 。
  
 
  
@@ -33,13 +26,11 @@
  提示： 
 
  
- m == obstacleGrid.length 
- n == obstacleGrid[i].length 
- 1 <= m, n <= 100 
- obstacleGrid[i][j] 为 0 或 1 
+ 1 <= s.length <= 1000 
+ s 仅由小写英文字母组成 
  
 
- Related Topics 数组 动态规划 矩阵 👍 1069 👎 0
+ Related Topics 字符串 动态规划 👍 1061 👎 0
 
 */
 #include<bits/stdc++.h>
@@ -65,43 +56,18 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    //二维数组
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int m = obstacleGrid.size();
-        int n = obstacleGrid[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, 0));
-        //初始化
-        for (int i = 0; i < m && obstacleGrid[i][0] == 0; ++i) dp[i][0] = 1;
-        for (int j = 0; j < n && obstacleGrid[0][j] == 0; ++j) dp[0][j] = 1;
-
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                if (obstacleGrid[i][j] == 0) {
-                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-                }
+    int longestPalindromeSubseq(string s) {
+        vector<vector<int>> dp(s.size(), vector<int>(s.size(), 0));
+        for (int i = 0; i < s.size(); ++i) dp[i][i] = 1;//初始化
+        for (int i = s.size() - 1; i >= 0; --i) {
+            for (int j = i + 1; j < s.size(); ++j) {
+                dp[i][j] = (s[i] == s[j])
+                           ? dp[i + 1][j - 1] + 2
+                           : max(dp[i][j - 1], dp[i + 1][j]);
             }
         }
-        return dp.back().back();
+        return dp[0].back();
     }
-    //滚动数组
-//    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-//        vector<int> dp(obstacleGrid[0].size());
-//        for (int j = 0; j < dp.size(); ++j)
-//            if (obstacleGrid[0][j] == 1)
-//                dp[j] = 0;//
-//            else if (j == 0)
-//                dp[j] = 1;
-//            else
-//                dp[j] = dp[j-1];
-//        for (int i = 1; i < obstacleGrid.size(); ++i)
-//            for (int j = 0; j < dp.size(); ++j){
-//                if (obstacleGrid[i][j] == 1)
-//                    dp[j] = 0;
-//                else if (j != 0)
-//                    dp[j] = dp[j] + dp[j-1];
-//            }
-//        return dp.back();
-//    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
@@ -109,8 +75,6 @@ public:
 int main()
 {
     Solution s;
-    vector<vector<int>> a {{0,0,0},{0,1,0},{0,0,0}};
-    s.uniquePathsWithObstacles(a);
 //    vector<int> a /*initilization*/;
 //    auto x = s. /*function_name*/;
 //    cout << x << endl;
