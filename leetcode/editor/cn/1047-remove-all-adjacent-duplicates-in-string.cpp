@@ -46,7 +46,9 @@ public:
     string removeDuplicates(string s) {
         string res;//用string代替stack
         for (auto& i : s)
-            !res.empty() && i == res.back() ? res.pop_back() : res.push_back(i);
+            (!res.empty() && i == res.back())
+                        ? res.pop_back()
+                        : res.push_back(i);
         return res;
     }
 };

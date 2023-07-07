@@ -60,3 +60,4 @@ add_executable(188-best-time-to-buy-and-sell-stock-iv leetcode/editor/cn/188-bes
 add_executable(300-longest-increasing-subsequence leetcode/editor/cn/300-longest-increasing-subsequence.cpp)
 add_executable(53-maximum-subarray leetcode/editor/cn/53-maximum-subarray.cpp)
 add_executable(583-delete-operation-for-two-strings leetcode/editor/cn/583-delete-operation-for-two-strings.cpp)
+add_executable(496-next-greater-element-i leetcode/editor/cn/496-next-greater-element-i.cpp)
