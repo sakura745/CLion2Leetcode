@@ -46,27 +46,27 @@ using namespace std;
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> ret(2, -1);
-        int l = 0, r = nums.size();
-        while (l < r) {
+        vector<int> res;
+        int r = nums.size() - 1, l = 0;
+        while (r >= l) {
             int m = l + ((r - l) >> 1);
             if (nums[m] > target) {
-                r = m;
+                r = m - 1;
             } else if (nums[m] < target) {
                 l = m + 1;
             } else {
-                while (nums[l] < nums[m]) {
+                while (nums[m] > nums[l]) {
                     ++l;
                 }
-                while (nums[m] < nums[r - 1]){//右开区间
+                while (nums[m] < nums[r]) {
                     --r;
                 }
-                ret[0] = l;
-                ret[1] = r - 1;//右开区间
-                return ret;
+                res.push_back(l);
+                res.push_back(r);
+                return res;
             }
         }
-        return ret;
+        return {-1, -1};
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

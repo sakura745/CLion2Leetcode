@@ -66,29 +66,13 @@ using namespace std;
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        //暴力循环
-        int size = nums.size();
-        for (int i = 0; i < size; ++i) {
-            if (nums[i] == val) {
-                for (int j = i + 1; j < size; ++j) {
-                    //nums[i] = nums[j];逻辑上没错，但是循环需要更新，因此将i换成j - 1
-                    nums[j - 1] = nums[j];
-                }
-                --i;
-                --size;
+        int res = 0;//慢指针
+        for (auto& num/*相当于快指针*/ : nums) {
+            if (num != val) {
+                nums[res++] = num;
             }
         }
-        return size;
-
-        //双指针
-/*        int slow = 0;
-        for (int fast = 0; fast < nums.size(); ++fast) {
-            if (nums[fast] != val) {
-                nums[slow++] = nums[fast];
-            }
-        }
-        return slow;*/
-
+        return res;//不相等几次，res++执行了几次
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
@@ -98,7 +82,5 @@ int main()
 {
     Solution s;
     vector<int> a /*initilization*/;
-    auto x = s. /*function_name*/;
-    cout << x << endl;
     return 0;
 }
