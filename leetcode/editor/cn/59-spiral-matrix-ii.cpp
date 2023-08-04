@@ -35,46 +35,22 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int> > ret(n, vector<int>(n,-1));//初始化
+        vector<vector<int>> res(n, vector<int>(n, -1));//初始化
         int cnt = 1;//赋值
         int l = 0, r = n - 1, t = 0, b = n - 1;//每组循环的边界
         while (cnt <= n * n) {
-            for (int i = l; i <= r; i++) ret[t][i] = cnt++;
+            for (int i = l; i <= r; i++) res[t][i] = cnt++;
             //规定了下一边的上边界
             //同时给第二组循环用的，向内逼近，上边界就++，下边界就--
             t++;
-            for (int i = t; i <= b; i++) ret[i][r] = cnt++;
+            for (int i = t; i <= b; i++) res[i][r] = cnt++;
             r--;
-            for (int i = r; i >= l; i--) ret[b][i] = cnt++;
+            for (int i = r; i >= l; i--) res[b][i] = cnt++;
             b--;
-            for (int i = b; i >= t; i--) ret[i][l] = cnt++;
+            for (int i = b; i >= t; i--) res[i][l] = cnt++;
             l++;
         }
-        return ret;
-
-
-        //carl方法
-//        vector<vector<int> > ret(n, vector<int>(n, 0));//多维数组初始化
-//        int cnt = 1;//按顺序给数组赋值
-//        int loop = n / 2;
-//        int startX = 0, startY = 0;//初始位置
-//        int offset = 0;//每次按圈循环附加的变量
-//        int i = 0, j = 0;
-//        while (loop--) {
-//            for (j = startY; j < n - 1 - offset; ++j) ret[startX][j] = cnt++;
-//            for (i = startX; i < n - 1 - offset; ++i) ret[i][j] = cnt++;
-//            for (; j > startY; --j) ret[i][j] = cnt++;
-//            for (; i > startX; --i) ret[i][j] = cnt++;
-//
-//            //下一圈
-//            startX++;
-//            startY++;
-//            offset++;
-//        }
-//        if (n % 2) {
-//            ret[n / 2][n / 2] = cnt;
-//        }
-//        return ret;
+        return res;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

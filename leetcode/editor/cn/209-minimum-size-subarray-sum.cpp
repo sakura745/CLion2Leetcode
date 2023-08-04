@@ -56,7 +56,7 @@ using namespace std;
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        int ret = INT_MAX;
+        int res = INT_MAX;
         int sum = 0;
         int i = 0;//滑动窗口的左边界
         int length = 0;//窗口长度
@@ -64,11 +64,11 @@ public:
             sum += nums[j];
             while (sum >= target) {
                 length = j - i + 1;
-                ret = ret < length ? ret : length;
-                sum -= nums[i++];
+                res = min(res, length);
+                sum -= nums[i++];//调节窗口的左侧
             }
         }
-        return ret == INT_MAX ? 0 : ret;//把两种情况结合到一起
+        return res == INT_MAX ? 0 : res;//把两种情况结合到一起
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

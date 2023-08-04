@@ -49,37 +49,19 @@ using namespace std;
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
-
-        /*        int idx = nums.size() - 1;//用于构成新数组
         vector<int> res(nums.size(), -1);
-        for (int i = 0, j = nums.size() - 1; i <= j; ) {
-            if (nums[i] * nums[i] > nums[j] * nums[j]) {
-                res[idx--] = nums[i] * nums[i];
-                ++i;
-            } else {
-                res[idx--] = nums[j] * nums[j];
-                --j;
-            }
-        }
-        return res;*/
-
-
+        int r = nums.size() - 1, l = 0;
         int idx = nums.size() - 1;
-        vector<int> res(nums.size(), -1);
-
-        //把for修改成while，逻辑没变
-        int i = 0, j = nums.size() - 1;
-        while (i <= j) {
-            if (nums[i] * nums[i] > nums[j] * nums[j]) {
-                res[idx--] = nums[i] * nums[i];
-                ++i;
+        while (l <= r) {
+            if (nums[l] * nums[l] < nums[r] * nums[r]) {
+                res[idx--] = nums[r] * nums[r];
+                --r;
             } else {
-                res[idx--] = nums[j] * nums[j];
-                --j;
+                res[idx--] = nums[l] * nums[l];
+                ++l;
             }
         }
         return res;
-
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

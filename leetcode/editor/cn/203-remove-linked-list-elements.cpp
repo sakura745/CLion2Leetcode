@@ -64,23 +64,13 @@ void printLinkedList(ListNode* head);
 class Solution {
 public:
     ListNode* removeElements(ListNode* head, int val) {
-        ListNode* dum = new ListNode(-1, head);//虚拟头结点
-        ListNode* cur = dum;//用作遍历链表
-        while (cur->next != nullptr) {
-            if (cur->next->val == val) {
-                ListNode* tmp = cur->next;//回收cur->next
-                cur->next = cur->next->next;
-                delete tmp;//回收cur->next
-            } else {
-                cur = cur->next;//指向下一个
-            }
+        auto dummy = new ListNode(-1, head);//虚拟头节点
+        auto cur = dummy;//用于遍历节点
+        while (cur->next) {
+            cur->next->val == val ? cur->next = cur->next->next
+                                  : cur = cur->next;
         }
-
-        //回收dum
-        head = dum->next;
-        delete dum;
-
-        return head;
+        return dummy->next;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

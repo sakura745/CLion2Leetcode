@@ -61,69 +61,66 @@ void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class MyLinkedList {
 public:
-    struct ListNode {
-        int val;
-        ListNode* next;
-        ListNode() : val(0), next(nullptr) {}
-        ListNode(int x) : val(x), next(nullptr) {}
-        ListNode(int x, ListNode* next) : val(x), next(next) {}
-    };
-    MyLinkedList() : _size(0), _dum(new ListNode(-1)) {}
-    
+    MyLinkedList()
+            : size(0)
+            , dum(new ListNode(-1)) {}
+
     int get(int index) {
-        if (index < 0 || index > _size - 1)
+        if (index < 0 || index > size - 1) {
             return -1;
-        ListNode* cur = _dum->next;
+        }
+        auto cur = dum->next;
         while (index--) {
             cur = cur->next;
         }
         return cur->val;
     }
-    
+
     void addAtHead(int val) {
-        ListNode* tmp = new ListNode(val);
-        //注意插入顺序
-        tmp->next = _dum->next;
-        _dum->next = tmp;
-
-        ++_size;
+        auto tmp = new ListNode(val);
+        tmp->next = dum->next;
+        dum->next = tmp;
+        ++size;
     }
-    
+
     void addAtTail(int val) {
-        ListNode* tmp = new ListNode(val);
-        ListNode* cur = _dum;//遍历节点
-       while (cur->next != nullptr) {
-           cur = cur->next;
-       }
-        cur->next = tmp;
-        ++_size;
-    }
-
-
-    void addAtIndex(int index, int val) {
-        if (index > _size) return;
-        ListNode* tmp = new ListNode(val);//初始化要插入的节点
-        ListNode* cur = _dum;//遍历节点
-        while (index--) {
+        auto tmp = new ListNode(val);
+        auto cur = dum;
+        while (cur->next) {
             cur = cur->next;
         }
-        tmp->next = cur->next;
         cur->next = tmp;
-        _size++;
+        ++size;
     }
-    
+
+    void addAtIndex(int index, int val) {
+        if (index > size) {
+            return;
+        } else {
+            auto cur = dum;
+            while (index--) {
+                cur = cur->next;
+            }
+            auto tmp = new ListNode(val, cur->next);
+            cur->next = tmp;
+            ++size;
+        }
+    }
+
     void deleteAtIndex(int index) {
-        if (index < 0 || index >= _size) return;
-        ListNode* cur = _dum;
+        if (index < 0 || index > size - 1) {
+            return;
+        }
+        auto cur = dum;
         while (index--) {
             cur = cur->next;
         }
         cur->next = cur->next->next;
-        _size--;
+        --size;
     }
- private:
-    int _size;
-    ListNode* _dum;
+private:
+    int size;
+    ListNode* dum;
 };
 
 /**
