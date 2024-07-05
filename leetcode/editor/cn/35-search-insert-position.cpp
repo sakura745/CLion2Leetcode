@@ -47,18 +47,18 @@ using namespace std;
 class Solution {
 public:
     int searchInsert(vector<int>& nums, int target) {
-        int l = 0, r = nums.size() - 1;
-        while (r >= l) {
-            int m = (r - l) / 2 + l;
-            if (nums[m] == target) {
-                return m;
-            } else if (nums[m] > target) {
-                r = m - 1;
+        int left = 0, right = nums.size();
+        while (left < right) {
+            int middle = left + (right - left) / 2;
+            if (target == nums[middle]) {
+                return middle;
+            } else if (target < nums[middle]) {
+                right = middle;
             } else {
-                l = m + 1;
+                left = middle + 1;
             }
         }
-        return l;
+        return left;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

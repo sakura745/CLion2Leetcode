@@ -37,34 +37,35 @@ class Solution {
 public:
     int search(vector<int>& nums, int target) {
 //[,]区间
-        int l = 0, r = nums.size() - 1;
-        while (l <= r) {
-            int m = l + ((r - l) >> 1);
-            if (nums[m] < target) {
-                l = m + 1;
-            } else if (nums[m] > target) {
-                r = m - 1;
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int middle = left + ((right - left) >> 1);
+            if (nums[middle] < target) {
+                left = middle + 1;
+            } else if (nums[middle] > target) {
+                right = middle - 1;
             } else {
-                return m;
+                return middle;
             }
         }
         return -1;
 
 //[,)区间
-/*        int l = 0, r = nums.size();
-        while (l < r) {
-            int m = l + (r - l) / 2;
-            if (nums[m] < target) {
-                l = m + 1;
-            } else if (nums[m] > target) {
-                r = m;
+/*        int left = 0, right = nums.size();
+        while (left < right) {
+            int middle = left + (right - left) / 2;
+            if (nums[middle] < target) {
+                left = middle + 1;
+            } else if (nums[middle] > target) {
+                right = middle;
             } else {
-                return m;
+                return middle;
             }
         }
         return -1;*/
     }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 

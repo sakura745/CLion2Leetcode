@@ -68,23 +68,26 @@ void printLinkedList(ListNode* head);
  * };
  */
 class Solution {
-public:
-    ListNode* recursive(ListNode* pre, ListNode* cur) {
-        if (cur == nullptr) return pre;
-        ListNode* tmp = cur->next;
+    //递归
+private:
+    ListNode* recursive(auto pre, auto cur) {
+        if (!cur) return pre;
+        auto tmp = cur->next;
         cur->next = pre;
         return recursive(cur, tmp);
     }
+public:
     ListNode* reverseList(ListNode* head) {
         return recursive(nullptr, head);
-
-        //双指针
-/*        ListNode* cur = head;//cur把链表接过来了，在cur上操作
+    }
+    //双指针
+/*
+public:
+        auto cur = head;//cur把链表接过来了，在cur上操作
         ListNode* pre = nullptr;//cur的上一个节点
-        ListNode* tmp = nullptr;
         while (cur) {
             //tmp保存cur下一个节点。为了下一次循环找到剩下的节点
-            tmp = cur->next;
+            auto tmp = cur->next;
 
             //反转列表
             cur->next = pre;
@@ -93,8 +96,9 @@ public:
             pre = cur;
             cur = tmp;
         }
-        return pre;*/
+        return pre;
     }
+*/
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

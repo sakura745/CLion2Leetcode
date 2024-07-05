@@ -47,23 +47,23 @@ class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         vector<int> res;
-        int r = nums.size() - 1, l = 0;
-        while (r >= l) {
-            int m = l + ((r - l) >> 1);
-            if (nums[m] > target) {
-                r = m - 1;
-            } else if (nums[m] < target) {
-                l = m + 1;
-            } else {
-                while (nums[m] > nums[l]) {
-                    ++l;
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+            if (target == nums[middle]) {
+                while (nums[left] < nums[middle]) {
+                    ++left;
                 }
-                while (nums[m] < nums[r]) {
-                    --r;
+                while (nums[middle] < nums[right]) {
+                    --right;
                 }
-                res.push_back(l);
-                res.push_back(r);
+                res.push_back(left);
+                res.push_back(right);
                 return res;
+            } else if (target < nums[middle]) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
             }
         }
         return {-1, -1};

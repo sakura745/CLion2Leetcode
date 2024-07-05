@@ -35,24 +35,33 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int>> res(n, vector<int>(n, -1));//初始化
-        int cnt = 1;//赋值
-        int l = 0, r = n - 1, t = 0, b = n - 1;//每组循环的边界
+        vector<vector<int>> res(n, vector<int>(n,-1));
+        int left = 0, right = n - 1, top = 0, bottom = n - 1;//每组循环的边界
+        int cnt = 1;
         while (cnt <= n * n) {
-            for (int i = l; i <= r; i++) res[t][i] = cnt++;
+            for (int i = left;i <= right; ++i) {
+                res[top][i] = cnt++;
+            }
             //规定了下一边的上边界
             //同时给第二组循环用的，向内逼近，上边界就++，下边界就--
-            t++;
-            for (int i = t; i <= b; i++) res[i][r] = cnt++;
-            r--;
-            for (int i = r; i >= l; i--) res[b][i] = cnt++;
-            b--;
-            for (int i = b; i >= t; i--) res[i][l] = cnt++;
-            l++;
+            ++top;
+            for (int i = top;i <= bottom; ++i) {
+                res[i][right] = cnt++;
+            }
+            --right;
+            for (int i = right;i >= left; --i) {
+                res[bottom][i] = cnt++;
+            }
+            --bottom;
+            for (int i = bottom;i >= top; --i) {
+                res[i][left] = cnt++;
+            }
+            ++left;
         }
         return res;
     }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 

@@ -56,21 +56,21 @@ using namespace std;
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        int res = INT_MAX;
-        int sum = 0;
-        int i = 0;//滑动窗口的左边界
-        int length = 0;//窗口长度
-        for (int j = 0; j < nums.size(); j++) {//j滑动窗口的右边界
-            sum += nums[j];
-            while (sum >= target) {
-                length = j - i + 1;
-                res = min(res, length);
-                sum -= nums[i++];//调节窗口的左侧
+        int res = INT_MAX, length/*窗口长度*/ = 0;
+        int left = 0;//滑动窗口的左边界
+        for (int right = 0; right < nums.size(); ++right) {//right滑动窗口的右边界
+            target -= nums[right];
+            while (target <= 0) {
+                length = right - left + 1;
+                res = res < length ? res : length;
+                target += nums[left++];//调节窗口的左侧
             }
         }
         return res == INT_MAX ? 0 : res;//把两种情况结合到一起
     }
 };
+
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 
