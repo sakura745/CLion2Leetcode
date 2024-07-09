@@ -61,21 +61,21 @@ class Solution {
 public:
     int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
         unordered_map<int, int> map;
-        for (auto& i: nums1) {
-            for (auto& j: nums2) {
-                map[i + j]++;//nums1 nums2之和存入map
+        for (auto num1 : nums1) {
+            for (auto num2 : nums2) {
+                map[num1 + num2]++;//nums1 nums2之和存入map
             }
         }
-        int cnt = 0;
-        for (auto& i: nums3) {
-            for (auto& j: nums4) {
-                int target = 0 - (i + j);//查找target是否存在与map中
+        int res = 0;
+        for (auto num3 : nums3) {
+            for (auto num4 : nums4) {
+                auto target = 0 - (num3 + num4);//查找target是否存在与map中
                 if (map.find(target) != map.end()) {
-                    cnt += map[target];//target对应存在多少个，都加入
+                    res += map[target];//target对应存在多少个，都加入
                 }
             }
         }
-        return cnt;
+        return res;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

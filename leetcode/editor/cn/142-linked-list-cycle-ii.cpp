@@ -82,12 +82,15 @@ void printLinkedList(ListNode* head);
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        ListNode* fast = head, * slow = head;
-        while (fast != nullptr && fast->next != nullptr/*fast是两个节点*/) {
+        auto fast = head;
+        auto slow = head;
+        while (fast && fast->next/*fast是两个节点*/) {
             fast = fast->next->next;
             slow = slow->next;
-            if (slow == fast) {
-                ListNode* ptr1 = head, * ptr2 = fast;//用来计算相遇节点 x = z
+            if (fast == slow) {
+                //用来计算相遇节点 x = z
+                auto ptr1 = head;
+                auto ptr2 = fast;
                 while (ptr1 != ptr2) {
                     ptr1 = ptr1->next;
                     ptr2 = ptr2->next;

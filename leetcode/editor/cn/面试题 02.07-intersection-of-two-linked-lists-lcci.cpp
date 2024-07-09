@@ -92,48 +92,41 @@ void printLinkedList(ListNode* head);
  * };
  */
 class Solution {
+    void distance(ListNode* cur, int& n) {
+        auto temp = cur;
+        while (temp) {
+            ++n;
+            temp = temp->next;
+        }
+    }
+    ListNode* node(ListNode* cur1, ListNode* cur2, int n) {
+        while (n--) {
+            cur1 = cur1->next;
+        }
+        while (cur1) {
+            if (cur1 == cur2) {
+                return cur1;
+            }
+            cur1 = cur1->next;
+            cur2 = cur2->next;
+        }
+        return nullptr;
+    }
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        ListNode* curA = headA, * curB = headB;//遍历链表
-
-        //计算两个链表的长度
-        int cntA = 0, cntB = 0;
-        while (curA != nullptr) {
-            curA = curA->next;
-            cntA++;
+        int cnt1, cnt2;
+        cnt1 = cnt2 = 0;
+        distance(headA, cnt1);
+        distance(headB, cnt2);
+        if (int dis = cnt1 - cnt2; dis < 0) {
+            return node(headB, headA, -dis);
+        } else {
+            return node(headA, headB, dis);
         }
-        while (curB != nullptr) {
-            curB = curB->next;
-            cntB++;
-        }
-
-        //重新指向头节点，遍历用
-        curA = headA;
-        curB = headB;
-
-        //选择较长的链表为A链表
-        if (cntA < cntB) {
-            swap(cntA, cntB);
-            swap(curA, curB);
-        }
-
-        //计算长度差，让长的链表对应的节点先跑
-        int dis = cntA - cntB;
-        while (dis--) {
-            curA = curA->next;
-        }
-
-        while (curA != nullptr) {
-            if (curA == curB) {
-                return curA;
-            }
-            curA = curA->next;
-            curB = curB->next;
-        }
-
         return nullptr;
     }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 
