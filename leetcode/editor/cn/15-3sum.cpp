@@ -72,7 +72,7 @@ public:
         for (int i = 0; i < nums.size(); i++) {
             if (nums[i] > 0) break;//剪枝，没有不影响结果
 
-            //i指针的去重
+            //i指针的去重，因为i-1已经计算过了，因此需要跳过i
             if (i > 0 && nums[i] == nums[i - 1]) continue;
 
             int left = i + 1, right = nums.size() - 1;

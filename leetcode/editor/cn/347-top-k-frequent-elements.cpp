@@ -49,23 +49,21 @@ using namespace std;
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int, int> map;
+        unordered_map<int, int> uMap;
         vector<int> res;
-        for (int i = 0; i < nums.size(); ++i) {
-            map[nums[i]]++;//key 数字，value出现的次数
+        for (const auto num : nums) {
+            uMap[num]++;
         }
         auto cmp = [](const auto& lhs, const auto& rhs) {
             return lhs.second > rhs.second;
-        };//比较函数
-        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> que(cmp);//小根堆
-
-        for (auto it = map.begin(); it != map.end(); ++it) {//遍历map
-            que.push(*it);//加入小根堆
-            if (que.size() > k) {//保留前k个
+        };
+        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> que(cmp);
+        for (const auto num : uMap) {
+            que.push(num);
+            if (que.size() > k) {
                 que.pop();
             }
         }
-
         while (!que.empty()) {
             res.push_back(que.top().first);
             que.pop();
@@ -73,6 +71,7 @@ public:
         return res;
     }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 

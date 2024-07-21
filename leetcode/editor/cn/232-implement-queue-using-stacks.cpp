@@ -76,39 +76,35 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class MyQueue {
+    stack<int> inStack;
+    stack<int> outStack;
 public:
-    stack<int> stackIn;
-    stack<int> stackOut;
-    MyQueue() {
+    MyQueue() {}
 
-
-    }
-    
     void push(int x) {
-        stackIn.push(x);
+        inStack.push(x);
     }
-    
+
     int pop() {
-        if (stackOut.empty()) {
-            while (!stackIn.empty()) {
-                stackOut.push(stackIn.top());
-                stackIn.pop();
+        if (outStack.empty()) {
+            while (!inStack.empty()) {
+                outStack.push(inStack.top());
+                inStack.pop();
             }
         }
-        int result = stackOut.top();
-        stackOut.pop();
-        return result;
+        int tmp = outStack.top();
+        outStack.pop();
+        return tmp;
     }
-    
+
     int peek() {
-        int result = pop();//函数的复用
-        stackOut.push(result);
-        return result;
+        int tmp = pop();
+        outStack.push(tmp);
+        return tmp;
     }
-    
+
     bool empty() {
-        //return stackIn.empty() && stackOut.empty() ? true : false; //可以被简化为下面的
-        return stackIn.empty() && stackOut.empty();
+        return inStack.empty() && outStack.empty();
     }
 };
 

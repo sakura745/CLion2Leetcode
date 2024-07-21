@@ -67,8 +67,9 @@ public:
         auto dummy = new ListNode(-1, head);//虚拟头节点
         auto cur = dummy;//用于遍历节点
         while (cur->next) {
-            cur->next->val == val ? cur->next = cur->next->next
-                                  : cur = cur->next;
+            (cur->next->val == val)
+                ? cur->next = cur->next->next
+                : cur = cur->next;
         }
         return dummy->next;
     }

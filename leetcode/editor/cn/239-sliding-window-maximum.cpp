@@ -56,45 +56,34 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-private:
-    class MyQue {
-    public:
-        deque<int> que;//单调队列
-
-        void push(int& val) {
-            while (!que.empty() && val > que.back()/*加入的依次比较，比val小的都弹出，用来维持单调性*/) {
-                que.pop_back();
-            }
-            que.push_back(val);
-        }
-        void pop(int& val) {
-            if (!que.empty() && val == que.front()/*如果弹出的值为队首（最大值），则弹出*/) {
-                que.pop_front();
-            }
-        }
-
-        //因为维护的是单调队列，直接获取队首即可
-        int getNextValue() {
-            return que.front();
-        }
-
-    };
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         vector<int> res;
-        MyQue que;
-        for (int i = 0; i < k; ++i) {//加入第一个窗口的值
-            que.push(nums[i]);
-        }
-        res.push_back(que.getNextValue());
-        for (int i = k; i < nums.size(); ++i) {//补上之前的遍历，使其完整遍历
-            que.pop(nums[i - k/*维护窗口的大小*/]);
-            que.push(nums[i/*维护窗口的大小*/]);
-            res.push_back(que.getNextValue());
+        deque<int> deq;
+        for (int idx = 0; idx < nums.size(); ++idx) {
+            //下面的if和while是当deq不为空时，才执行的，也就是循环的第二步
+            //但是却是位于deq.push_back()之前
+
+            //比较的是front，说明deq中最大值已经小于窗口的左侧
+            if (!deq.empty() && deq.front() ==/*维持窗口范围*/ idx - k) {
+                deq.pop_front();//限制窗口的范围
+            }
+            //==改为<=也可以，但是由于idx是遍历的，所以==比较准确，<=没有必要
+
+            //是while而不是if，表明在筛选deq中的所有成员
+            while (!deq.empty() && nums[deq.back()] < nums[idx]/*说明deq中是最大值的序号*/) {
+                deq.pop_back();
+            }
+            deq.push_back(idx);//表示deq中存储nums中的序号
+
+            if (idx >= k - 1) {//表示窗口已经形成
+                res.push_back(nums[deq.front()]);
+            }
         }
         return res;
     }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 

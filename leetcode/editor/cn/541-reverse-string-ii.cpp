@@ -51,11 +51,11 @@ using namespace std;
 class Solution {
 public:
     string reverseStr(string s, int k) {
-        for (int i = 0; i < s.size(); i += 2 * k/*每2k个判断一次*/) {
-            i + k <= s.size() ?//剩余字符是否有k个
-            //reverse函数区间为左闭右开
-            reverse(s.begin() + i, s.begin() + k + i) ://有，结尾为 + k
-            reverse(s.begin() + i, s.end());//没有就直接到end
+        for (int idx = 0; idx < s.size(); idx += 2 * k/*每2k个判断一次*/) {
+            (idx + k <= s.size()) //剩余字符是否有k个
+                //reverse函数区间为左闭右开
+                ? reverse(s.begin() + idx, s.begin() + k + idx)//有，结尾为 + k
+                : reverse(s.begin() + idx, s.end());//没有就直接到end
         }
         return s;
     }

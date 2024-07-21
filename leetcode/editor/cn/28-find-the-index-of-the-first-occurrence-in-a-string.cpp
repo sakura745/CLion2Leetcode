@@ -47,44 +47,40 @@ using namespace std;
 //void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
-    void getNext(const string &s, int* next) {
+    void getNext(const string& pattern, vector<int>& next) {
         next[0] = -1;
-
-        //由于next数组是看之前的字符。当s只有一个长度时，之前没有字符。所以只能是在此跳出。
-        if (s.size() == 1) return;
-
+        if (next.size() == 1) return;
         next[1] = 0;
-        int i = 2;
-        int cn = 0;
-        while (i < s.size()) {
-            if (s[i - 1] == s[cn]) {
-                next[i++] = ++cn;
-            } else if (cn > 0) {
-                cn = next[cn];
+        int idxP = 2, nextValue = 0;
+        while (idxP < pattern.size()) {
+            if (pattern[idxP - 1] == pattern[nextValue]) {
+                next[idxP++] = ++nextValue;
+            } else if (nextValue > 0) {
+                nextValue = next[nextValue];
             } else {
-                next[i++] = 0;
+                next[idxP++] = 0;
             }
         }
     }
+public:
     int strStr(string haystack, string needle) {
-        int next[needle.size()];
+        vector<int> next(needle.size());
         getNext(needle, next);
-        int i = 0;
-        int j = 0;
-        while (i < haystack.size() && j < needle.size()) {
-            if (haystack[i] == needle[j]) {
-                i++;
-                j++;
-            } else if (j > 0) {
-                j = next[j];
+        int idxH = 0, idxN = 0;
+        while (idxH < haystack.size() && idxN < needle.size()) {
+            if (haystack[idxH] == needle[idxN]) {
+                idxN++;
+                idxH++;
+            } else if (idxN > 0) {
+                idxN = next[idxN];
             } else {
-                i++;
+                idxH++;
             }
         }
-        return j == needle.size() ? i - j : -1;
+        return idxN == needle.size() ? idxH - idxN : -1;
     }
 };
+
 
 //leetcode submit region end(Prohibit modification and deletion)
 

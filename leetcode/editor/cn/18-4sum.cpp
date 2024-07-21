@@ -55,30 +55,34 @@ void printLinkedList(ListNode* head);
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        vector<vector<int>> ret;
-        sort(nums.begin(), nums.end());//排序
-        for (int k = 0; k < nums.size(); k++) {
-            if (nums[k] > target && nums[k] >= 0) break;//剪枝
-            if (k > 0 && nums[k] == nums[k - 1]) continue;//k去重
-            for (int i = k + 1; i < nums.size(); i++) {
-                if (nums[k] + nums[i] > target && nums[k] + nums[i] >= 0) break;//剪枝。k+i是一个整体
-                if (i > k + 1 && nums[i] == nums[i - 1]) continue;//i去重
-                int left = i + 1, right = nums.size() - 1;
+        vector<vector<int>> res;
+        sort(nums.begin(), nums.end());
+        for (int idx = 0; idx < nums.size(); ++idx) {
+            if (nums[idx] >= 0 && nums[idx] > target) break;//剪枝，由于target可能小于零，所以要两个条件
+            if (idx > 0 && nums[idx] == nums[idx - 1]) continue;//去重
+            for (int idx2 = idx + 1; idx2 < nums.size(); ++idx2){
+                if (nums[idx] + nums[idx2] >= 0 && nums[idx] + nums[idx2] > target) break;//剪枝
+                if (idx2 > idx + 1 && nums[idx2] == nums[idx2 - 1]) continue;//去重
+                int left = idx2 + 1, right = nums.size() - 1;
                 while (left < right) {
-                    if ((long) nums[k] + nums[i] + nums[left] + nums[right] > target) right--;
-                    else if ((long) nums[k] + nums[i] + nums[left] + nums[right] < target) left++;
-                    else {
-                        ret.push_back(vector<int>{nums[k], nums[i], nums[left], nums[right]});
-                        while (left < right && nums[left] == nums[left + 1]) left++;//left去重
-                        while (left < right && nums[right] == nums[right - 1]) right--;//right去重
-                        right--;left++;
+                    if (static_cast<long>(nums[idx]) + nums[idx2] + nums[left] + nums[right] < target) {
+                        ++left;
+                    } else if (static_cast<long>(nums[idx]) + nums[idx2] + nums[left] + nums[right] > target) {
+                        --right;
+                    } else {
+                        res.push_back({nums[idx], nums[idx2], nums[left], nums[right]});
+                        while (left < right && nums[left] == nums[left + 1]) ++left;//去重
+                        while (left < right && nums[right] == nums[right - 1]) --right;//去重
+                        ++left;
+                        --right;
                     }
                 }
             }
         }
-        return ret;
+        return res;
     }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 

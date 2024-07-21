@@ -72,6 +72,25 @@ public:
         return true;
     }
 };
+/*
+class Solution {
+        public:
+        bool canConstruct(string ransomNote, string magazine) {
+            unordered_map<char, int> map;
+            for (auto letter : magazine) {
+                map[letter]++;
+            }
+            for (auto letter : ransomNote) {
+                if (map.find(letter) != map.end() && map[letter]) {
+                    map[letter]--;
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        }
+};
+*/
 //leetcode submit region end(Prohibit modification and deletion)
 
 

@@ -48,9 +48,7 @@ public:
 /*    void reverseString(vector<char>& s) {
         int left = 0, right = s.size() - 1;
         while (left < right) {//当s为奇数时，直接跳过。当s为偶数时，交换后自动满足
-            s[left] ^= s[right] ^= s[left] ^= s[right];//交换
-            left++;
-            right--;
+            s[left++] ^= s[right--] ^= s[left] ^= s[right];//交换，此方法仅限于整数，char在底层也算整数
         }
     }*/
     //仿照算法reverse函数写的

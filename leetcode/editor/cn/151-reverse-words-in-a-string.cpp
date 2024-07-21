@@ -66,41 +66,34 @@ using namespace std;
 void printLinkedList(ListNode* head);
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
-    void removeSpaces(string& s) {//去除空格
-        int slow = 0;//导出新字符串的指针
-        for (int i = 0; i < s.size(); ++i) {
-            if (s[i] != ' ') {//跳过单词空格，进入双指针操作
-
-                //用slow指针给每个单词前加一个空格
-                if (slow != 0/*除了是第一个单词*/) s[slow++] = ' ';
-
-                //给新字符串赋值
-                while (i < s.size()/*防止越界*/ && s[i] != ' '/*当有空格跳出循环，即单词完整输入后*/) {
-                    s[slow++] = s[i++];
+    void removeSpace(string& par) {
+        int newIdx = 0;
+        for (int oldIdx = 0; oldIdx < par.size(); ++oldIdx) {
+            if (par[oldIdx] != ' ') {//跳过空格
+                if (newIdx != 0) {//非第一个单词
+                    par[newIdx++] = ' ';//每个单词前都加空格
+                }
+                while (oldIdx < par.size()/*因为在下一行代码中，oldIdx++，所以要判断一下*/ && par[oldIdx] != ' ') {
+                    par[newIdx++] = par[oldIdx++];
                 }
             }
         }
-
-        //slow返回的不是新字符串下标，如果是下标，应为resize(slow + 1).
-        //执行到赋值单词的最后一步是slow++，额外加了1。所以resize(slow)
-        s.resize(slow);
+        par.resize(newIdx);//因为循环最后一步为newIdx++，所以不是resize(newIdx + 1)
     }
-    void reverse(string& s, int left, int right) {//左闭右闭区间
+    void reverseString(string& par, int left, int right) {
         while (left < right) {
-            s[left] ^= s[right] ^= s[left] ^= s[right];
-            left++;
-            right--;
+            par[left++] ^= par[right--] ^= par[left] ^= par[right];
         }
     }
+public:
     string reverseWords(string s) {
-        removeSpaces(s);
-        reverse(s, 0, s.size() - 1);
-        int start = 0;//每个单词的起点
-        for (int i = 0; i <= s.size(); ++i) {//i=size是为了让最后一个单词也满足reverse区间
-            if (s[i] == ' ' || i == s.size()/*最后一个单词*/) {
-                reverse(s, start, i - 1);
-                start = i + 1;//更新起点
+        removeSpace(s);
+        reverseString(s, 0, s.size() - 1);
+        int start = 0;//用来修改每个单词的翻转
+        for (int idx = 0; idx <=/*等于是为了让最后一个单词也满足翻转的区间*/ s.size(); ++idx) {
+            if (s[idx] == ' ' || idx == s.size()/*最后一个单词*/) {
+                reverseString(s, start, idx - 1);
+                start = idx + 1;//更新起点
             }
         }
         return s;

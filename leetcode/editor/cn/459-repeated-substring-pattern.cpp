@@ -56,7 +56,6 @@ using namespace std;
 /*void printLinkedList(ListNode* head);*/
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-public:
     //移动匹配
 /*    bool repeatedSubstringPattern(string s) {
         string ss = s + s;
@@ -64,33 +63,29 @@ public:
         ss.erase(ss.end() - 1);
         return ss.find(s) != string::npos;
     }*/
-    void getNext(const string& s, int* next) {
+    void getNext(const string& pattern, vector<int>& next) {
         next[0] = -1;
-        if (s.size() == 1) return;
+        if (next.size() == 1) return;
         next[1] = 0;
-        int i = 2;
-        int cn = 0;
-        while (i < s.size()) {
-            if (s[i - 1] == s[cn]) {
-                next[i++] = ++cn;
-            } else if (cn > 0) {
-                cn = next[cn];
+        int idxP = 2, nextValue = 0;
+        while (idxP < pattern.size()) {
+            if (pattern[idxP - 1] == pattern[nextValue]) {
+                next[idxP++] = ++nextValue;
+            } else if (nextValue > 0) {
+                nextValue = next[nextValue];
             } else {
-                next[i++] = 0;
+                next[idxP++] = 0;
             }
         }
     }
+public:
     bool repeatedSubstringPattern(string s) {
-        int len = s.size();
+        int length = s.size();
+        vector<int> next(length + 1);//+1是因为next数组是所表示的为当前位置之前的字符串
+        getNext(s + 'A'/*类似于哨兵的作用，不满足于s要求的字符就行*/, next);
+        //比如s为aba，则为abaA
 
-        int next[len + 1];//多一位是因为next数组的构造不同，需要整个字符串的next数组
-
-        getNext(s + 'A'/*只要加一个不满足s要求的字符都行*/, next);
-        //比如字符串是"aba",变成"abaA"
-
-        //return (next[len] != 0 && len % (len - next[len]) == 0) ? true : false;
-        //简化为
-        return next[len] != 0/*等于0，直接跳出为false*/&& len % (len - next[len]) == 0;
+        return next[length] > 0 && length % (length - next[length]) == 0;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
