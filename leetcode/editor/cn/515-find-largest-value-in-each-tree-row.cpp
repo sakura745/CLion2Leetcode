@@ -87,6 +87,27 @@ public:
         return res;
     }
 };
+//递归
+/*
+class Solution {
+    void recursion(TreeNode* cur, vector<int>& res, int depth) {
+        if (!cur) return;
+        if (res.size() == depth) {
+            res.push_back(INT_MIN);
+        }
+        res[depth] = res[depth] > cur->val ? res[depth] : cur->val;
+        recursion(cur->left, res, depth + 1);
+        recursion(cur->right, res,depth + 1);
+    }
+public:
+    vector<int> largestValues(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        recursion(root, res, 0);
+        return res;
+    }
+};
+*/
 //leetcode submit region end(Prohibit modification and deletion)
 
 

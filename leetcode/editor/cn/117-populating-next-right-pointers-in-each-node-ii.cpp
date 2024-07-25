@@ -109,6 +109,32 @@ public:
         return root;
     }
 };
+//递归
+/*
+class Solution {
+    vector<Node*> tmp;
+    void recursion(Node* cur, int depth) {
+        if (!cur) return;
+
+        //tmp是维护当前层最右侧的节点
+        if (tmp.size() == depth) {
+            tmp.push_back(cur);
+        } else {
+            tmp[depth]->next = cur;
+            tmp[depth] = cur;
+        }
+
+        recursion(cur->left, depth + 1);
+        recursion(cur->right, depth + 1);
+    }
+public:
+    Node* connect(Node* root) {
+        if (!root) return root;
+        recursion(root, 0);
+        return root;
+    }
+};
+*/
 //leetcode submit region end(Prohibit modification and deletion)
 
 

@@ -115,6 +115,24 @@ public:
         return root;
     }
 };
+//递归
+/*
+class Solution {
+    void recursion(Node* cur, Node* cur2) {
+        if (!cur || !cur2) return;
+        cur->next = cur2;
+        recursion(cur->left, cur->right);
+        recursion(cur->right, cur2->left);
+        recursion(cur2->left, cur2->right);
+    }
+public:
+    Node* connect(Node* root) {
+        if (!root) return root;
+        recursion(root->left, root->right);
+        return root;
+    }
+};
+*/
 //leetcode submit region end(Prohibit modification and deletion)
 
 

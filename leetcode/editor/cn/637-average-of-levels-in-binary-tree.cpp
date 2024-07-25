@@ -82,7 +82,7 @@ public:
             double sum = 0;
             int cnt = 0;
             while (size--) {
-                TreeNode* cur = que.front();
+                auto cur = que.front();
                 que.pop();
                 sum += cur->val;
                 ++cnt;
@@ -93,6 +93,34 @@ public:
         }
         return res;
     }
+};
+
+//递归
+/*
+class Solution {
+    void recursion(TreeNode* cur, vector<double>& sum, vector<int>& cnt, int depth) {
+        if (!cur) return;
+        if (sum.size() == depth) {
+            sum.resize(depth + 1, 0.0);//resize表示为已有长度之外的赋予0.0
+			cnt.push_back(0);//和上面等价
+        }
+        sum[depth] += cur->val;
+        cnt[depth]++;
+        recursion(cur->left, sum, cnt, depth + 1);
+        recursion(cur->right, sum, cnt, depth + 1);
+    }
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> res, sum;
+        vector<int> cnt;
+        if (!root) return res;
+        recursion(root, sum, cnt, 0);
+        for (int idx = 0; idx < sum.size(); ++idx) {
+            res.push_back(sum[idx] / cnt[idx]);
+        }
+        return res;
+    }
+*/
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

@@ -99,6 +99,28 @@ public:
         return res;
     }
 };
+//递归
+/*
+class Solution {
+    void recursion(Node* cur, vector<vector<int>>& res, int depth) {
+        if (!cur) return;
+        if (res.size() == depth) {
+            res.emplace_back();
+        }
+        res[depth].push_back(cur->val);
+        for (const auto node : cur->children) {
+            recursion(node, res, depth + 1);
+        }
+    }
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+        vector<vector<int>> res;
+        if (!root) return res;
+        recursion(root, res, 0);
+        return res;
+    }
+};
+*/
 //leetcode submit region end(Prohibit modification and deletion)
 
 
